@@ -13,24 +13,144 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Util">
+      <UniqueIdentifier>{c2cd568a-2d46-49eb-b48a-36f11f5fad6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Registry">
+      <UniqueIdentifier>{81fd1544-554a-4df7-8d46-aa22e085f495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\DowPro">
+      <UniqueIdentifier>{4ab688b4-25e4-4b4d-add9-1eb7cff15c0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Registry">
+      <UniqueIdentifier>{0a26e1ab-6d2e-4b86-98d0-b536724c440a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Lua">
+      <UniqueIdentifier>{fbd74710-0f50-40fc-903a-a207e718035e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\DowPro">
+      <UniqueIdentifier>{47d3e857-ff18-4b88-8d25-a52d5916dd6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Lua">
+      <UniqueIdentifier>{021a2396-3ea3-4280-9e9c-92c449524841}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Util">
+      <UniqueIdentifier>{af580506-82df-41ec-84db-99a2f3f625fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Zipping">
+      <UniqueIdentifier>{b2c3aafb-9f25-461d-8c2a-91ec12a8b98d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Zipping">
+      <UniqueIdentifier>{8d7037ab-f4ad-4923-847f-6a4208c8e6e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Sources\main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="RegistryError.cpp">
+    <ClCompile Include="Sources\StaticAssets.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Registry.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="Sources\Registry\Registry.cpp">
+      <Filter>Fichiers sources\Registry</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Registry\RegistryError.cpp">
+      <Filter>Fichiers sources\Registry</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Lua\Lua.cpp">
+      <Filter>Fichiers sources\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Lua\LuaError.cpp">
+      <Filter>Fichiers sources\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Lua\LuaProperty.cpp">
+      <Filter>Fichiers sources\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\DowPro\GamePlayer.cpp">
+      <Filter>Fichiers sources\DowPro</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\DowPro\GameResult.cpp">
+      <Filter>Fichiers sources\DowPro</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\DowPro\ReplaysWatcher.cpp">
+      <Filter>Fichiers sources\DowPro</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\DowPro\SavedReplay.cpp">
+      <Filter>Fichiers sources\DowPro</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\DowPro\SoulstormFiles.cpp">
+      <Filter>Fichiers sources\DowPro</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Lua\LuaObject.cpp">
+      <Filter>Fichiers sources\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Lua\LuaElement.cpp">
+      <Filter>Fichiers sources\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Util\FileUtil.cpp">
+      <Filter>Fichiers sources\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Util\StringUtil.cpp">
+      <Filter>Fichiers sources\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Util\DateUtil.cpp">
+      <Filter>Fichiers sources\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Zipping\Zipper.cpp">
+      <Filter>Fichiers sources\Zipping</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RegistryError.h">
+    <ClInclude Include="Sources\StaticAssets.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Registry.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Sources\Lua\Lua.hpp">
+      <Filter>Fichiers d%27en-tête\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Lua\LuaError.hpp">
+      <Filter>Fichiers d%27en-tête\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Lua\LuaProperty.hpp">
+      <Filter>Fichiers d%27en-tête\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Registry\Registry.hpp">
+      <Filter>Fichiers d%27en-tête\Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Registry\RegistryError.hpp">
+      <Filter>Fichiers d%27en-tête\Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\DowPro\GamePlayer.hpp">
+      <Filter>Fichiers d%27en-tête\DowPro</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\DowPro\GameResult.hpp">
+      <Filter>Fichiers d%27en-tête\DowPro</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\DowPro\ReplaysWatcher.hpp">
+      <Filter>Fichiers d%27en-tête\DowPro</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\DowPro\SavedReplay.hpp">
+      <Filter>Fichiers d%27en-tête\DowPro</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\DowPro\SoulstormFiles.hpp">
+      <Filter>Fichiers d%27en-tête\DowPro</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Util\StringUtil.hpp">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Lua\LuaObject.hpp">
+      <Filter>Fichiers d%27en-tête\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Lua\LuaElement.hpp">
+      <Filter>Fichiers d%27en-tête\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Util\FileUtil.hpp">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Util\DateUtil.hpp">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Zipping\Zipper.hpp">
+      <Filter>Fichiers d%27en-tête\Zipping</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,6 +18,45 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Sources\DowPro\GamePlayer.cpp" />
+    <ClCompile Include="Sources\DowPro\GameResult.cpp" />
+    <ClCompile Include="Sources\DowPro\ReplaysWatcher.cpp" />
+    <ClCompile Include="Sources\DowPro\SavedReplay.cpp" />
+    <ClCompile Include="Sources\DowPro\SoulstormFiles.cpp" />
+    <ClCompile Include="Sources\Lua\Lua.cpp" />
+    <ClCompile Include="Sources\Lua\LuaElement.cpp" />
+    <ClCompile Include="Sources\Lua\LuaError.cpp" />
+    <ClCompile Include="Sources\Lua\LuaObject.cpp" />
+    <ClCompile Include="Sources\Lua\LuaProperty.cpp" />
+    <ClCompile Include="Sources\main.cpp" />
+    <ClCompile Include="Sources\Registry\Registry.cpp" />
+    <ClCompile Include="Sources\Registry\RegistryError.cpp" />
+    <ClCompile Include="Sources\StaticAssets.cpp" />
+    <ClCompile Include="Sources\Util\DateUtil.cpp" />
+    <ClCompile Include="Sources\Util\FileUtil.cpp" />
+    <ClCompile Include="Sources\Util\StringUtil.cpp" />
+    <ClCompile Include="Sources\Zipping\Zipper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sources\DowPro\GamePlayer.hpp" />
+    <ClInclude Include="Sources\DowPro\GameResult.hpp" />
+    <ClInclude Include="Sources\DowPro\ReplaysWatcher.hpp" />
+    <ClInclude Include="Sources\DowPro\SavedReplay.hpp" />
+    <ClInclude Include="Sources\DowPro\SoulstormFiles.hpp" />
+    <ClInclude Include="Sources\Lua\Lua.hpp" />
+    <ClInclude Include="Sources\Lua\LuaElement.hpp" />
+    <ClInclude Include="Sources\Lua\LuaError.hpp" />
+    <ClInclude Include="Sources\Lua\LuaObject.hpp" />
+    <ClInclude Include="Sources\Lua\LuaProperty.hpp" />
+    <ClInclude Include="Sources\Registry\Registry.hpp" />
+    <ClInclude Include="Sources\Registry\RegistryError.hpp" />
+    <ClInclude Include="Sources\StaticAssets.hpp" />
+    <ClInclude Include="Sources\Util\DateUtil.hpp" />
+    <ClInclude Include="Sources\Util\FileUtil.hpp" />
+    <ClInclude Include="Sources\Util\StringUtil.hpp" />
+    <ClInclude Include="Sources\Zipping\Zipper.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{8565F956-2A77-4A8C-BB97-06EA0F84FDFB}</ProjectGuid>
@@ -29,14 +68,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -76,7 +115,18 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>.\StaticDependencies\zlib-1.2.11</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <Link />
+    <Link />
+    <Link>
+      <AdditionalLibraryDirectories>.\StaticDependencies\zlib-1.2.11</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zlibStaticDebug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -85,6 +135,8 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Link />
+    <Link />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -94,10 +146,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>.\StaticDependencies\zlib-1.2.11</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>zlibStaticRelease.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\StaticDependencies\zlib-1.2.11</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -114,15 +169,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Registry.cpp" />
-    <ClCompile Include="RegistryError.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Registry.h" />
-    <ClInclude Include="RegistryError.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
