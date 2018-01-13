@@ -1,4 +1,4 @@
-#include "RegistryError.h"
+#include "RegistryError.hpp"
 
 RegistryError::RegistryError(const char* message, LONG errorCode)
 	: runtime_error{ message }
