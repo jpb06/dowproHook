@@ -44,7 +44,8 @@ unique_ptr<LuaObject> Lua::ParseObject(wstring obj)
 		}
 		else
 		{
-			luaObject->AddProp(new LuaProperty(identifier, value));
+			LuaElementType type = StringUtil::IsNumber(value) ? LuaElementType::Number : LuaElementType::String;			
+			luaObject->AddProp(new LuaProperty(type, identifier, value));
 		}
 	}
 

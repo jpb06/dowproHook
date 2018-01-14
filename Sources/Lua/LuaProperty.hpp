@@ -9,9 +9,11 @@ using namespace std;
 class LuaProperty : public LuaElement
 {
 public:
-	LuaProperty(wstring identifier, wstring value);
+	LuaProperty(LuaElementType type, wstring identifier, wstring value);
 	~LuaProperty();
 
 	int AsInt () const;
 	wstring AsString () const;
+
+	wstring ToJson() const;
 };

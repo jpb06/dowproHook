@@ -22,6 +22,8 @@ public:
 
 	void AddObj(unique_ptr<LuaObject> pt);
 	void AddProp(LuaProperty* pt);
+
+	wstring ToJson() const;
 private:
 	vector<unique_ptr<LuaElement>> properties;
 };
