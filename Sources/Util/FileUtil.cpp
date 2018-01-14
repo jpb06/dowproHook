@@ -43,6 +43,19 @@ namespace FileUtil
 		return -1;
 	}
 
+	bool WriteFile(wstring path, wstring content)
+	{
+		FILE *stream;
+
+		if ((stream = _fsopen(StringUtil::ConvertToNarrow(path).c_str(), "w", _SH_DENYWR)) != NULL)
+		{
+			fprintf(stream, "%s", StringUtil::ConvertToNarrow(content).c_str());
+			fclose(stream);
+		}
+
+		return true;
+	}
+
 	void WriteInteger(wstring file, long integer)
 	{
 		FILE *stream;
