@@ -7,7 +7,7 @@
 #include <chrono>
 #include <thread>
 #include "StaticAssets.hpp"
-#include "./Zipping/Zipper.hpp"
+
 
 #include "Util\StringUtil.hpp"
 #include "Util\FileUtil.hpp"
@@ -42,6 +42,10 @@ void loop(wstring playBackPath, atomic<bool>& program_is_running)
 
 				FileUtil::Copy(playBackPath + L"\\temp.rec", playBackPath + L"\\" + filename);
 				FileUtil::WriteInteger(playBackPath + L"\\dowprohook.log", fileSize);
+
+				FileUtil::WriteFile(playBackPath + L"\\dowprohook_r.json", parsedGameResult->ToJson());
+				vector<wstring> filesToArchive = { playBackPath + L"\\" + filename, playBackPath + L"\\dowprohook_r.json" };
+				StaticAssets::SoulstormFiles.ArchiveGame(playBackPath + L"\\dowprohook.zip", filesToArchive);
 			}
 		}
 		this_thread::sleep_for(wait_duration);
@@ -51,32 +55,11 @@ void loop(wstring playBackPath, atomic<bool>& program_is_running)
 
 int main()
 {
-	//wstring playbackPath = StaticAssets::SoulstormFiles.GetSoulstormRootDirectory() + L"Playback";
-	//
-	//// init : first temp.req shouldn't be saved
-	//int fileSize = FileUtil::GetFileSize(playbackPath + L"\\temp.rec");
-	//FileUtil::WriteInteger(playbackPath + L"\\dowprohook.log", fileSize);
-
-	const char* Filenames[] = { "E:\\Documents (Racine)\\Im@ges\\6369401_460s.jpg", "E:\\Documents (Racine)\\Documents(texts)\\Planet x Delirium.txt" };
-	unsigned int nCount = sizeof(Filenames) / sizeof(char*);
-
-	ziputils::zipper zipFile;
-	zipFile.open("E:\\XenoCid\\Anno_2k18\\dowproHook\\test.zip");
-
-	ifstream file("E:\\Documents (Racine)\\Im@ges\\6369401_460s.jpg", ios::in | ios::binary);
-	if (file.is_open())
-	{
-		zipFile.addEntry("/6369401_460s.jpg");
-		zipFile << file;
-	}
-	file.close();
-	file.open("E:\\Documents (Racine)\\Documents(texts)\\Planet x Delirium.txt", ios::in | ios::binary);
-	if (file.is_open())
-	{
-		zipFile.addEntry("/Planet x Delirium.txt");
-		zipFile << file;
-	}
-	zipFile.close();
+	wstring playbackPath = StaticAssets::SoulstormFiles.GetSoulstormRootDirectory() + L"Playback";
+	
+	// init : first temp.req shouldn't be saved
+	int fileSize = FileUtil::GetFileSize(playbackPath + L"\\temp.rec");
+	FileUtil::WriteInteger(playbackPath + L"\\dowprohook.log", fileSize);
 
 	cin.get();
 	return 0;
