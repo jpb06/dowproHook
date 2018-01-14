@@ -73,4 +73,14 @@ namespace StringUtil
 				*it = L'_';
 		}
 	}
+
+	bool IsNumber(const string& s)
+	{
+		return !s.empty() && find_if(s.begin(), s.end(), [](char c) { return !isdigit(c); }) == s.end();
+	}
+
+	bool IsNumber(const wstring& s)
+	{
+		return IsNumber(ConvertToNarrow(s));
+	}
 }

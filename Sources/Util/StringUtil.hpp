@@ -18,4 +18,6 @@ namespace StringUtil
 	string ConvertToNarrow(wstring ws);
 	wstring ConvertToWide(string s);
 	void RemoveIllegalCharacters(wstring* ws);
+	bool IsNumber(const string& s);
+	bool IsNumber(const wstring& s);
 }
