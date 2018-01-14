@@ -1,7 +1,7 @@
 #include "LuaProperty.hpp"
 
-LuaProperty::LuaProperty(wstring identifier, wstring value) 
-	: LuaElement(identifier, value)
+LuaProperty::LuaProperty(LuaElementType type, wstring identifier, wstring value)
+	: LuaElement(type, identifier, value)
 {}
 
 LuaProperty::~LuaProperty()
@@ -30,4 +30,18 @@ wstring LuaProperty::AsString() const
 		throw LuaError { "Value is not a string" };
 	
 	return val.substr(1, length - 2);
+}
+
+wstring LuaProperty::ToJson() const
+{
+	wstring jsonValue;
+	wstring rawValue = this->GetRawValue();
+
+	size_t length = rawValue.size();
+	if (rawValue[0] == '"' && rawValue[length - 1] == '"')
+		jsonValue = rawValue;
+	else
+		jsonValue = L"\"" + rawValue + L"\"";
+
+	return L"\"" + this->GetIdentifier() + L"\":" + jsonValue;
 }
