@@ -1,0 +1,12 @@
+{
+  "name": "node-sand-box-rec-file",
+  "version": "0.0.0",
+  "description": "NodeSandBoxRecFile",
+  "main": "app.js",
+  "author": {
+    "name": "jpb"
+  },
+  "devDependencies": {
+    "@types/node": "^6.0.96"
+  }
+}
