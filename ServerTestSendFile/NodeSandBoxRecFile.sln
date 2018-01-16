@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "NodeSandBoxRecFile", "NodeSandBoxRecFile.njsproj", "{AB7B89BB-7250-461A-B020-C2F57441417B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB7B89BB-7250-461A-B020-C2F57441417B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB7B89BB-7250-461A-B020-C2F57441417B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB7B89BB-7250-461A-B020-C2F57441417B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB7B89BB-7250-461A-B020-C2F57441417B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {23B65812-967B-4ACA-86D5-7324408EED54}
+	EndGlobalSection
+EndGlobal
