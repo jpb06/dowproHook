@@ -2,7 +2,7 @@
   "name": "node-sand-box-rec-file",
   "version": "0.0.0",
   "description": "NodeSandBoxRecFile",
-  "main": "app.js",
+  "main": "deploy/app.js",
   "author": {
     "name": "jpb"
   },

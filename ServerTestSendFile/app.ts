@@ -23,8 +23,6 @@ server.on('request', (request: http.IncomingMessage, response: http.ServerRespon
     }).on('end', async () => {
         let binary = Buffer.concat(data);
 
-        console.log(binary.length);
-
         response.on('error', (err) => {
             console.error(err);
         });
@@ -32,11 +30,8 @@ server.on('request', (request: http.IncomingMessage, response: http.ServerRespon
         const fs_writeFile = util.promisify(fs.writeFile);
         await fs_writeFile("test.zip", binary);
 
-        const responseBody = { headers, method, url, body };
-
-        response.writeHead(200, { 'Content-Type': 'application/json' })
-        response.write(JSON.stringify(responseBody));
-        response.end();
+        response.writeHead(200, {'Content-Type': 'text/plain' });
+        response.end('Transfer complete\n');
     });
 });
 server.listen(8080);
