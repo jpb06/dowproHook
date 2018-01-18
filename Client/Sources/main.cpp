@@ -24,20 +24,8 @@ int main()
 {
 	//init();
 
-	wstring rawGameResult = StaticAssets::SoulstormFiles.GetGameResult();
-	unique_ptr<LuaObject> parsedGameResult = StaticAssets::Lua.ParseObject(rawGameResult);
-	FileUtil::WriteFile(L"E:\\XenoCid\\Anno_2k18\\dowproHook\\test.json", parsedGameResult->ToJson());
-
-	wstring archivePath = L"E:\\XenoCid\\Anno_2k18\\dowproHook\\test.zip";
-	vector<wstring> filesToArchive = 
-	{ 
-		L"E:\\SteamGames\\steamapps\\common\\Dawn of War Soulstorm\\Playback\\stupidkasrkins.rec", 
-		L"E:\\XenoCid\\Anno_2k18\\dowproHook\\test.json" 
-	};
-	StaticAssets::SoulstormFiles.ArchiveGame(archivePath, filesToArchive);
-
-	Socket socket("127.0.0.1", 8080);
-	bool result = socket.SendFile(archivePath);
+	// lauching soulstorm
+	system("start steam://rungameid/9450");
 	
 	return 0;
 }
