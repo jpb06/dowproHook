@@ -24,14 +24,18 @@
     <ClCompile Include="Sources\DowPro\ReplaysWatcher.cpp" />
     <ClCompile Include="Sources\DowPro\SavedReplay.cpp" />
     <ClCompile Include="Sources\DowPro\SoulstormFiles.cpp" />
+    <ClCompile Include="Sources\Errors\HeadersError.cpp" />
+    <ClCompile Include="Sources\Errors\SocketError.cpp" />
     <ClCompile Include="Sources\Lua\Lua.cpp" />
     <ClCompile Include="Sources\Lua\LuaElement.cpp" />
-    <ClCompile Include="Sources\Lua\LuaError.cpp" />
+    <ClCompile Include="Sources\Errors\LuaError.cpp" />
     <ClCompile Include="Sources\Lua\LuaObject.cpp" />
     <ClCompile Include="Sources\Lua\LuaProperty.cpp" />
     <ClCompile Include="Sources\main.cpp" />
+    <ClCompile Include="Sources\Network\Http.cpp" />
+    <ClCompile Include="Sources\Network\Socket.cpp" />
     <ClCompile Include="Sources\Registry\Registry.cpp" />
-    <ClCompile Include="Sources\Registry\RegistryError.cpp" />
+    <ClCompile Include="Sources\Errors\RegistryError.cpp" />
     <ClCompile Include="Sources\StaticAssets.cpp" />
     <ClCompile Include="Sources\Util\DateUtil.cpp" />
     <ClCompile Include="Sources\Util\FileUtil.cpp" />
@@ -39,6 +43,7 @@
     <ClCompile Include="Sources\Zipping\Zipper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Sources\Errors\HeadersError.hpp" />
     <ClInclude Include="Sources\DowPro\GamePlayer.hpp" />
     <ClInclude Include="Sources\DowPro\GameResult.hpp" />
     <ClInclude Include="Sources\DowPro\ReplaysWatcher.hpp" />
@@ -46,11 +51,15 @@
     <ClInclude Include="Sources\DowPro\SoulstormFiles.hpp" />
     <ClInclude Include="Sources\Lua\Lua.hpp" />
     <ClInclude Include="Sources\Lua\LuaElement.hpp" />
-    <ClInclude Include="Sources\Lua\LuaError.hpp" />
+    <ClInclude Include="Sources\Errors\LuaError.hpp" />
     <ClInclude Include="Sources\Lua\LuaObject.hpp" />
     <ClInclude Include="Sources\Lua\LuaProperty.hpp" />
+    <ClInclude Include="Sources\Network\Http.hpp" />
+    <ClInclude Include="Sources\Network\httpHeaders.hpp" />
+    <ClInclude Include="Sources\Network\Socket.hpp" />
+    <ClInclude Include="Sources\Errors\SocketError.hpp" />
     <ClInclude Include="Sources\Registry\Registry.hpp" />
-    <ClInclude Include="Sources\Registry\RegistryError.hpp" />
+    <ClInclude Include="Sources\Errors\RegistryError.hpp" />
     <ClInclude Include="Sources\StaticAssets.hpp" />
     <ClInclude Include="Sources\Util\DateUtil.hpp" />
     <ClInclude Include="Sources\Util\FileUtil.hpp" />
