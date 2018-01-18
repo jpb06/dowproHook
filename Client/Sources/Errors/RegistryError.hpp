@@ -8,8 +8,8 @@ using namespace std;
 class RegistryError : public runtime_error
 {
 	public:
-		RegistryError(const char* message, LONG errorCode);
+		RegistryError(const string message, LONG errorCode);
 		LONG ErrorCode() const noexcept;
 	private:
-		LONG m_errorCode;
+		LONG errorCode;
 };

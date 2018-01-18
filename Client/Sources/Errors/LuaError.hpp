@@ -7,5 +7,5 @@ using namespace std;
 class LuaError : public runtime_error
 {
 public:
-	LuaError(const char* message);
+	LuaError(const string message);
 };
