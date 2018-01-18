@@ -50,12 +50,11 @@ server.on('request', function (request, response) {
     }).on('data', function (chunk) {
         data.push(chunk);
     }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
-        var binary, fs_writeFile, responseBody;
+        var binary, fs_writeFile;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     binary = Buffer.concat(data);
-                    console.log(binary.length);
                     response.on('error', function (err) {
                         console.error(err);
                     });
@@ -63,10 +62,8 @@ server.on('request', function (request, response) {
                     return [4 /*yield*/, fs_writeFile("test.zip", binary)];
                 case 1:
                     _a.sent();
-                    responseBody = { headers: headers, method: method, url: url, body: body };
-                    response.writeHead(200, { 'Content-Type': 'application/json' });
-                    response.write(JSON.stringify(responseBody));
-                    response.end();
+                    response.writeHead(200, { 'Content-Type': 'text/plain' });
+                    response.end('Transfer complete\n');
                     return [2 /*return*/];
             }
         });

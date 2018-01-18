@@ -2,7 +2,7 @@
 
 #include <string>
 #include "LuaElement.hpp"
-#include "LuaError.hpp"
+#include "./../Errors/LuaError.hpp"
 
 using namespace std;
 

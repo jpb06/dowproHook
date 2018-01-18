@@ -43,18 +43,24 @@
     <Filter Include="Fichiers sources\Zipping">
       <UniqueIdentifier>{8d7037ab-f4ad-4923-847f-6a4208c8e6e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Network">
+      <UniqueIdentifier>{6736f6a3-c3f6-43eb-ab9a-7b3be00f8674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Network">
+      <UniqueIdentifier>{034e666b-5b7d-4c93-95a1-58056fe9b067}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Errors">
+      <UniqueIdentifier>{e3d3b90d-ea8d-47cb-a6ce-e9c6ef6ee617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Errors">
+      <UniqueIdentifier>{cea87469-ced7-426d-b2eb-acf21e7f37aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Registry\Registry.cpp">
       <Filter>Fichiers sources\Registry</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Registry\RegistryError.cpp">
-      <Filter>Fichiers sources\Registry</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Lua\Lua.cpp">
-      <Filter>Fichiers sources\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Lua\LuaError.cpp">
       <Filter>Fichiers sources\Lua</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Lua\LuaProperty.cpp">
@@ -93,11 +99,29 @@
     <ClCompile Include="Sources\Zipping\Zipper.cpp">
       <Filter>Fichiers sources\Zipping</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Network\Socket.cpp">
+      <Filter>Fichiers sources\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Network\Http.cpp">
+      <Filter>Fichiers sources\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Errors\LuaError.cpp">
+      <Filter>Fichiers sources\Errors</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Errors\RegistryError.cpp">
+      <Filter>Fichiers sources\Errors</Filter>
+    </ClCompile>
     <ClCompile Include="Sources\StaticAssets.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\main.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="Sources\Errors\SocketError.cpp">
+      <Filter>Fichiers sources\Errors</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Errors\HeadersError.cpp">
+      <Filter>Fichiers sources\Errors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,16 +131,10 @@
     <ClInclude Include="Sources\Lua\Lua.hpp">
       <Filter>Fichiers d%27en-tête\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Lua\LuaError.hpp">
-      <Filter>Fichiers d%27en-tête\Lua</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Lua\LuaProperty.hpp">
       <Filter>Fichiers d%27en-tête\Lua</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Registry\Registry.hpp">
-      <Filter>Fichiers d%27en-tête\Registry</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Registry\RegistryError.hpp">
       <Filter>Fichiers d%27en-tête\Registry</Filter>
     </ClInclude>
     <ClInclude Include="Sources\DowPro\GamePlayer.hpp">
@@ -151,6 +169,27 @@
     </ClInclude>
     <ClInclude Include="Sources\Zipping\Zipper.hpp">
       <Filter>Fichiers d%27en-tête\Zipping</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Network\Socket.hpp">
+      <Filter>Fichiers d%27en-tête\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Network\Http.hpp">
+      <Filter>Fichiers d%27en-tête\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Network\httpHeaders.hpp">
+      <Filter>Fichiers d%27en-tête\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Errors\HeadersError.hpp">
+      <Filter>Fichiers d%27en-tête\Errors</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Errors\LuaError.hpp">
+      <Filter>Fichiers d%27en-tête\Errors</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Errors\RegistryError.hpp">
+      <Filter>Fichiers d%27en-tête\Errors</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Errors\SocketError.hpp">
+      <Filter>Fichiers d%27en-tête\Errors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

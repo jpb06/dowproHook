@@ -3,7 +3,7 @@
 #include <string>
 #include <windows.h>
 #include <vector>
-#include "RegistryError.hpp"
+#include "./../Errors/RegistryError.hpp"
 
 using namespace std;
 

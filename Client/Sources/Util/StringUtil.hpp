@@ -20,4 +20,5 @@ namespace StringUtil
 	void RemoveIllegalCharacters(wstring* ws);
 	bool IsNumber(const string& s);
 	bool IsNumber(const wstring& s);
+	bool StartsWith(const string& s, const string& prefix);
 }

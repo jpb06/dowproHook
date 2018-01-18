@@ -83,4 +83,9 @@ namespace StringUtil
 	{
 		return IsNumber(ConvertToNarrow(s));
 	}
+
+	bool StartsWith(const string& s, const string& prefix) 
+	{
+		return s.size() >= prefix.size() && s.compare(0, prefix.size(), prefix) == 0;
+	}
 }

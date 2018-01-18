@@ -1,5 +1,5 @@
 #include "LuaError.hpp"
 
-LuaError::LuaError(const char * message) 
+LuaError::LuaError(const string message)
 	: runtime_error{ message }
 {}
