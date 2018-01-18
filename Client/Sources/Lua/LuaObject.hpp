@@ -5,7 +5,7 @@
 #include <memory>
 #include "LuaElement.hpp"
 #include "LuaProperty.hpp"
-#include "LuaError.hpp"
+#include "./../Errors/LuaError.hpp"
 
 using namespace std;
 
