@@ -12,18 +12,16 @@ Socket::~Socket()
 	WSACleanup();
 }
 
-bool Socket::Initialize()
+void Socket::Initialize()
 {
 	if ((this->socketFD = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
 		closesocket(this->socketFD);
-		return false;
+		throw SocketError{ "Socket initialization failure" };
 	}
-
-	return true;
 }
 
-bool Socket::Connect()
+void Socket::Connect()
 {
 	SOCKADDR_IN sin;
 	sin.sin_family = AF_INET;
@@ -34,10 +32,8 @@ bool Socket::Connect()
 	if (error != 0)
 	{
 		closesocket(this->socketFD);
-		return false;
+		throw SocketError{ "Socket connection failure" };
 	}
-
-	return true;
 }
 
 void Socket::Close()
@@ -58,8 +54,8 @@ bool Socket::SendFile(wstring filePath)
 	out << "Host: " + this->hostName + "\r\n";
 	out << "Content-Length: " << size << "\r\n";
 	out << "\r\n";
-	string headers = out.str();
-	send(this->socketFD, headers.c_str(), headers.size(), 0);
+	string requestHeaders = out.str();
+	send(this->socketFD, requestHeaders.c_str(), requestHeaders.size(), 0);
 
 	char data[1024];
 	file.clear();
@@ -83,9 +79,12 @@ bool Socket::SendFile(wstring filePath)
 	}
 	buffer[n] = '\0';
 	string response(buffer);
-	cout << response;
 
 	this->Close();
 
-	return true;
+	httpHeaders headers = Http::ParseHeaders(response);
+	if (headers.statusCode == 200)
+		return true;
+	else
+		return false;
 }

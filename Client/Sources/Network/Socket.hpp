@@ -6,6 +6,9 @@
 #include <Ws2tcpip.h>
 #include <fstream>
 #include <sstream>
+#include "./../Errors/SocketError.hpp"
+#include "./httpHeaders.hpp"
+#include "./Http.hpp"
 
 using namespace std;
 
@@ -25,7 +28,7 @@ private:
 	string ipAddress;
 	int port;
 
-	bool Initialize();
-	bool Connect();
+	void Initialize();
+	void Connect();
 	void Close();
 };
