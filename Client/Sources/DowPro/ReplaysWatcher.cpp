@@ -50,6 +50,12 @@ void ReplaysWatcher::Task(atomic<bool>& program_is_running)
 				FileUtil::WriteFile(this->jsonFilePath, parsedGameResult->ToJson());
 				vector<wstring> filesToArchive = { this->replayFilePath, this->jsonFilePath };
 				StaticAssets::SoulstormFiles.ArchiveGame(this->archivePath, filesToArchive);
+
+				wstring archivePath = L"E:\\XenoCid\\Anno_2k18\\dowproHook\\test.zip";
+				StaticAssets::SoulstormFiles.ArchiveGame(archivePath, filesToArchive);
+
+				Socket socket("127.0.0.1", 8080);
+				bool result = socket.SendFile(archivePath);
 			}
 		}
 		this_thread::sleep_for(wait_duration);

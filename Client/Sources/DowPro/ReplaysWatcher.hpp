@@ -4,6 +4,7 @@
 #include <atomic>
 #include <chrono>
 #include <thread>
+#include ".\..\Network\Socket.hpp"
 #include ".\..\StaticAssets.hpp"
 #include ".\..\Util\FileUtil.hpp"
 #include ".\..\Util\DateUtil.hpp"
