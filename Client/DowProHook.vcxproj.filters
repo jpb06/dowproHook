@@ -123,6 +123,9 @@
     <ClCompile Include="Sources\Errors\HeadersError.cpp">
       <Filter>Fichiers sources\Errors</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Crypto\Base64.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\StaticAssets.hpp">
@@ -190,6 +193,15 @@
     </ClInclude>
     <ClInclude Include="Sources\Errors\SocketError.hpp">
       <Filter>Fichiers d%27en-tête\Errors</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\UserInterface\MainWindow.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Crypto\picosha2.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Crypto\Base64.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

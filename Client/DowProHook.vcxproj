@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\Crypto\Base64.cpp" />
     <ClCompile Include="Sources\DowPro\GamePlayer.cpp" />
     <ClCompile Include="Sources\DowPro\GameResult.cpp" />
     <ClCompile Include="Sources\DowPro\ReplaysWatcher.cpp" />
@@ -43,6 +44,8 @@
     <ClCompile Include="Sources\Zipping\Zipper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Sources\Crypto\Base64.hpp" />
+    <ClInclude Include="Sources\Crypto\picosha2.hpp" />
     <ClInclude Include="Sources\Errors\HeadersError.hpp" />
     <ClInclude Include="Sources\DowPro\GamePlayer.hpp" />
     <ClInclude Include="Sources\DowPro\GameResult.hpp" />
@@ -61,6 +64,7 @@
     <ClInclude Include="Sources\Registry\Registry.hpp" />
     <ClInclude Include="Sources\Errors\RegistryError.hpp" />
     <ClInclude Include="Sources\StaticAssets.hpp" />
+    <ClInclude Include="Sources\UserInterface\MainWindow.hpp" />
     <ClInclude Include="Sources\Util\DateUtil.hpp" />
     <ClInclude Include="Sources\Util\FileUtil.hpp" />
     <ClInclude Include="Sources\Util\StringUtil.hpp" />
