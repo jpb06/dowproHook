@@ -1,5 +1,10 @@
 #include "SoulstormFiles.hpp"
 
+#include <fstream>
+#include "./../Registry/Registry.hpp"
+#include "./../Zipping/Zipper.hpp"
+#include "./../Util/StringUtil.hpp"
+
 SoulstormFiles::SoulstormFiles()
 {
 	wstring soulstormRootDirectory = Registry::RegGetString(
@@ -42,7 +47,7 @@ wstring SoulstormFiles::GetGameResult(wstring path)
 	return gameResultData;
 }
 
-void SoulstormFiles::ArchiveGame(const wstring archivePath, vector<wstring> filesPath)
+void SoulstormFiles::ArchiveFiles(const wstring archivePath, vector<wstring> filesPath)
 {
 	ziputils::zipper zipFile;
 	zipFile.open(StringUtil::ConvertToNarrow(archivePath).c_str());
@@ -50,18 +55,11 @@ void SoulstormFiles::ArchiveGame(const wstring archivePath, vector<wstring> file
 	for(unsigned int i = 0; i < filesPath.size(); i++)
 	{
 		string fileName = StringUtil::ConvertToNarrow(filesPath[i]);
-		string extension = fileName.substr(fileName.find_last_of('.'));
 
 		ifstream file(fileName, ios::in | ios::binary);
 		if (file.is_open())
 		{
-			const char* entryFileName = "";
-			if (extension == ".json") entryFileName = "/GameResult.json";
-			if (extension == ".rec") entryFileName = "/Replay.rec";
-
-			// TODO : exception on empty name
-
-			zipFile.addEntry(entryFileName);
+			zipFile.addEntry(fileName.c_str());
 			zipFile << file;
 		}
 		file.close();

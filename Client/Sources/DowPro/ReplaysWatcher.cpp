@@ -1,12 +1,22 @@
 #include "ReplaysWatcher.hpp"
 
-ReplaysWatcher::ReplaysWatcher(wstring playbackPath)
+#include <chrono>
+#include <fstream>
+#include ".\..\Lua\LuaProperty.hpp"
+#include ".\..\Lua\LuaObject.hpp"
+#include ".\..\Crypto\picosha2.hpp"
+#include ".\..\Network\Api\CrevetteBotApi.hpp"
+#include ".\..\StaticAssets.hpp"
+#include ".\..\Util\FileUtil.hpp"
+#include ".\..\Util\DateUtil.hpp"
+#include ".\..\Util\StringUtil.hpp"
+
+ReplaysWatcher::ReplaysWatcher(std::wstring soulstormPath)
 {
-	this->playbackPath = playbackPath;
-	this->jsonFilePath = playbackPath + L"\\dowprohook_r.json";
-	this->lastSavedFileSizePath = playbackPath + L"\\dowprohook.log";
-	this->replayFilePath = playbackPath + L"\\temp.rec";
-	this->archivePath = playbackPath + L"\\dowprohook.zip";
+	this->playbackPath = soulstormPath + L"Playback";
+	this->lastSavedFileHashPath = soulstormPath + L"dph_lahsh.dat";
+	this->replayFilePath = soulstormPath + L"Playback\\temp.rec";
+	this->archivePath = soulstormPath + L"dph_garc.zip";
 
 	this->running = false;
 }
@@ -21,7 +31,7 @@ ReplaysWatcher::~ReplaysWatcher()
 	}
 }
 
-void ReplaysWatcher::Task(atomic<bool>& program_is_running)
+void ReplaysWatcher::Task(std::atomic<bool>& program_is_running)
 {
 	const auto wait_duration = chrono::milliseconds(20000);
 
@@ -30,32 +40,30 @@ void ReplaysWatcher::Task(atomic<bool>& program_is_running)
 		bool isOpened = FileUtil::IsFileOpened(this->replayFilePath);
 		if (!isOpened)
 		{
-			long lastSavedFileSize = FileUtil::ReadInteger(this->lastSavedFileSizePath);
-			long fileSize = FileUtil::GetFileSize(this->replayFilePath);
+			std::string lastSavedFileHash = FileUtil::ReadString(this->lastSavedFileHashPath);
+			std::ifstream ifs(this->replayFilePath, ios_base::in | ios_base::binary);
+			std::string hash = picosha2::hash256_hex_string(string(istreambuf_iterator<char>(ifs), istreambuf_iterator<char>()));
+			ifs.close();
 
-			if (fileSize != lastSavedFileSize)
+			if (hash != lastSavedFileHash)
 			{
-				wstring rawGameResult = StaticAssets::SoulstormFiles.GetGameResult();
-				unique_ptr<LuaObject> parsedGameResult = StaticAssets::Lua.ParseObject(rawGameResult);
+				std::wstring rawGameResult = StaticAssets::SoulstormFiles.GetGameResult();
+				std::unique_ptr<LuaObject> parsedGameResult = StaticAssets::Lua.ParseObject(rawGameResult);
 
-				wstring mapName = parsedGameResult->Get<LuaProperty>(L"Scenario")->AsString();
-				string formattedDate = DateUtil::GetCurrentFormattedTime();
+				std::wstring mapName = parsedGameResult->Get<LuaProperty>(L"Scenario")->AsString();
+				std::string formattedDate = DateUtil::GetCurrentFormattedTime();
 
-				wstring filename = mapName + L'_' + StringUtil::ConvertToWide(formattedDate) + L".rec";
+				std::wstring filename = mapName + L'_' + StringUtil::ConvertToWide(formattedDate) + L".rec";
 				StringUtil::RemoveIllegalCharacters(&filename);
 
 				FileUtil::Copy(this->replayFilePath, this->playbackPath + L"\\" + filename);
-				FileUtil::WriteInteger(this->lastSavedFileSizePath, fileSize);
+				FileUtil::Write(this->lastSavedFileHashPath, hash);
 
-				FileUtil::WriteFile(this->jsonFilePath, parsedGameResult->ToJson());
-				vector<wstring> filesToArchive = { this->replayFilePath, this->jsonFilePath };
-				StaticAssets::SoulstormFiles.ArchiveGame(this->archivePath, filesToArchive);
-
-				wstring archivePath = L"E:\\XenoCid\\Anno_2k18\\dowproHook\\test.zip";
-				StaticAssets::SoulstormFiles.ArchiveGame(archivePath, filesToArchive);
-
-				Socket socket("127.0.0.1", 8080);
-				bool result = socket.SendFile(archivePath);
+				std::wstring gameResultJson = parsedGameResult->ToJson();
+				std::wstring guid = StringUtil::ConvertToWide(StaticAssets::Identity);
+				std::wstring requestJson = L"{\"Identity\":\"" + guid.substr(1, guid.size()-2) + L"\", \"GameResult\":" + gameResultJson + L"}";
+				
+				CrevetteBotApi::SendGameResult(requestJson);
 			}
 		}
 		this_thread::sleep_for(wait_duration);
@@ -72,4 +80,9 @@ void ReplaysWatcher::Stop()
 {
 	this->running = false;
 	this->taskThread.join();
+}
+
+bool ReplaysWatcher::isRunning()
+{
+	return this->running;
 }

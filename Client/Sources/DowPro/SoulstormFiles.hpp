@@ -2,10 +2,6 @@
 
 #include <string>
 #include <vector>
-#include <fstream>
-#include "./../Registry/Registry.hpp"
-#include "./../Zipping/Zipper.hpp"
-#include "./../Util/StringUtil.hpp"
 
 using namespace std;
 
@@ -18,7 +14,7 @@ public:
 	wstring GetSelectedProfileDirectory();
 	wstring GetGameResult();
 	wstring GetGameResult(wstring path);
-	void ArchiveGame(wstring archivePath, vector<wstring> filesPath);
+	void ArchiveFiles(wstring archivePath, vector<wstring> filesPath);
 
 	// getters
 	wstring GetSoulstormRootDirectory();
