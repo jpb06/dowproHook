@@ -2,10 +2,8 @@
 
 #include <string>
 
-using namespace std;
-
 namespace Crypto 
 {
-	string Base64Encode(unsigned char const*, unsigned int len);
-	string Base64Decode(string const& s);
+	std::string Base64Encode(unsigned char const*, unsigned int len);
+	std::string Base64Decode(std::string const& s);
 }

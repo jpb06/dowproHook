@@ -1,6 +1,6 @@
 #include "GamePlayer.hpp"
 
-GamePlayer::GamePlayer(wstring raceIdentifier, wstring name, int team, int human, int state)
+GamePlayer::GamePlayer(std::wstring raceIdentifier, std::wstring name, int team, int human, int state)
 {
 	this->race = this->GetRace(raceIdentifier);
 	this->name = this->name;
@@ -12,7 +12,7 @@ GamePlayer::GamePlayer(wstring raceIdentifier, wstring name, int team, int human
 GamePlayer::~GamePlayer()
 {}
 
-wstring GamePlayer::GetRace(wstring raceIdentifier)
+std::wstring GamePlayer::GetRace(std::wstring raceIdentifier)
 {
 	if(raceIdentifier == L"chaos_marine_race")
 		return L"Chaos";

@@ -2,22 +2,20 @@
 
 #include <string>
 
-using namespace std;
-
 class GamePlayer
 {
 public:
-	GamePlayer(wstring raceIdentifier, wstring name, int team, int human, int state);
+	GamePlayer(std::wstring raceIdentifier, std::wstring name, int team, int human, int state);
 	~GamePlayer();
 
 
 
 private:
 	bool isHuman;
-	wstring race;
-	wstring name;
+	std::wstring race;
+	std::wstring name;
 	int team;
 	bool isAmongWinners;
 
-	wstring GetRace(wstring raceIdentifier);
+	std::wstring GetRace(std::wstring raceIdentifier);
 };
