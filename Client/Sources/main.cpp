@@ -1,24 +1,47 @@
 #include <iostream>
-#include "./DowPro/ReplaysWatcher.hpp"
-#include "StaticAssets.hpp"
-#include "Util\FileUtil.hpp"
-
-
+#include <thread>
+#include <chrono>
+#include <fstream>
+#include <windows.h>
+#include ".\DowPro\ReplaysWatcher.hpp"
+#include ".\StaticAssets.hpp"
+#include ".\Util\FileUtil.hpp"
+#include ".\Errors\ApplicationError.hpp"
+#include ".\Util\StringUtil.hpp"
 #include ".\Crypto\picosha2.hpp"
-#include ".\Crypto\Base64.hpp"
 
 using namespace std;
 
-void init()
+wstring init()
 {
-	wstring playbackPath = StaticAssets::SoulstormFiles.GetSoulstormRootDirectory() + L"Playback";
+	wstring ssRoot = StaticAssets::SoulstormFiles.GetSoulstormRootDirectory();
+
+	string guid = FileUtil::ReadString(ssRoot + L"dph_idty.dat");
+	if (guid.size() == 0) 
+	{
+		GUID guidReference;
+		HRESULT hCreateGuid = CoCreateGuid(&guidReference);
+
+		if (hCreateGuid != 0)
+			throw ApplicationError("Couldn't generate a guid");
+
+		wchar_t szGUID[64] = { 0 };
+		StringFromGUID2(guidReference, szGUID, 64);
+
+		guid = StringUtil::ConvertToNarrow(wstring(szGUID));
+
+		FileUtil::Write(ssRoot + L"dph_idty.dat", guid);
+	}
+
+	StaticAssets::Identity = guid;
 
 	// init : first temp.req shouldn't be saved
-	int fileSize = FileUtil::GetFileSize(playbackPath + L"\\temp.rec");
-	FileUtil::WriteInteger(playbackPath + L"\\dowprohook.log", fileSize);
+	ifstream ifs(ssRoot + L"\\Playback\\temp.rec", ios_base::in | ios_base::binary);
+	string hash = picosha2::hash256_hex_string(string(istreambuf_iterator<char>(ifs), istreambuf_iterator<char>()));
+	ifs.close();
+	FileUtil::Write(ssRoot + L"\\dph_lahsh.dat", hash);
 
-	ReplaysWatcher replaysWatcher(playbackPath);
-	replaysWatcher.Start();
+	return ssRoot;
 }
 
 void launchSoulstorm()
@@ -29,17 +52,12 @@ void launchSoulstorm()
 
 int main()
 {
-	//init();
+	wstring ssRootPath = init();
+	ReplaysWatcher replaysWatcher(ssRootPath);
+	replaysWatcher.Start();
 
-	ifstream ifs("E:\\XenoCid\\Anno_2k18\\dowproHook\\test.zip", ios_base::in | ios_base::binary);
-	cout << picosha2::hash256_hex_string(string(istreambuf_iterator<char>(ifs), istreambuf_iterator<char>())) << endl;
-
-	//--------------------------------------------------------------
-	/*string src_str = "The quick brown fox jumps over the lazy dog";
-	string hash_hex_str;
-	picosha2::hash256_hex_string(src_str, hash_hex_str);
-	cout << hash_hex_str << endl;*/
+	while(replaysWatcher.isRunning())
+		this_thread::sleep_for(chrono::milliseconds(20000));
 
 	return 0;
 }
-
