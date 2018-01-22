@@ -3,29 +3,27 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include "LuaElement.hpp"
-#include "LuaProperty.hpp"
-#include "./../Errors/LuaError.hpp"
+#include ".\LuaElement.hpp"
 
-using namespace std;
+class LuaProperty;
 
 class LuaObject : public LuaElement
 {
 public:
-	LuaObject(wstring identifier, wstring rawContent);
+	LuaObject(std::wstring identifier, std::wstring rawContent);
 	~LuaObject();
 
 	template<typename T>
 	T const* Get(int index) const;
 	template<typename T>
-	T const* Get(const wstring identifier) const;
+	T const* Get(const std::wstring identifier) const;
 
-	void AddObj(unique_ptr<LuaObject> pt);
+	void AddObj(std::unique_ptr<LuaObject> pt);
 	void AddProp(LuaProperty* pt);
 
-	wstring ToJson() const;
+	std::wstring ToJson() const;
 private:
-	vector<unique_ptr<LuaElement>> properties;
+	std::vector<std::unique_ptr<LuaElement>> properties;
 };
 
 template<typename T>
@@ -38,14 +36,14 @@ inline T const* LuaObject::Get(int index) const
 }
 
 template<typename T>
-inline T const* LuaObject::Get(const wstring identifier) const
+inline T const* LuaObject::Get(const std::wstring identifier) const
 {
 	static_assert(is_base_of<LuaElement, T>::value, "T should inherit from LuaElement");
 
-	vector<unique_ptr<LuaElement>>::const_iterator results = find_if(
+	std::vector<std::unique_ptr<LuaElement>>::const_iterator results = find_if(
 		this->properties.begin(),
 		this->properties.end(),
-		[&](unique_ptr<LuaElement> const& p) { return p->GetIdentifier() == identifier; }
+		[&](std::unique_ptr<LuaElement> const& p) { return p->GetIdentifier() == identifier; }
 	);
 
 	if (results == this->properties.end()) {

@@ -1,6 +1,6 @@
 #include "LuaElement.hpp"
 
-LuaElement::LuaElement(LuaElementType type, wstring identifier, wstring rawValue)
+LuaElement::LuaElement(LuaElementType type, std::wstring identifier, std::wstring rawValue)
 {
 	this->type = type;
 	this->identifier = identifier;
@@ -10,12 +10,12 @@ LuaElement::LuaElement(LuaElementType type, wstring identifier, wstring rawValue
 LuaElement::~LuaElement()
 {}
 
-wstring LuaElement::GetIdentifier() const
+std::wstring LuaElement::GetIdentifier() const
 {
 	return this->identifier;
 }
 
-wstring LuaElement::GetRawValue() const
+std::wstring LuaElement::GetRawValue() const
 {
 	return this->rawValue;
 }
