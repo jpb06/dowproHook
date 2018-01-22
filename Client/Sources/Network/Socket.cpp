@@ -1,9 +1,20 @@
 #include "Socket.hpp"
 
-Socket::Socket(string ipAddress, int port)
+#include <winsock2.h>
+#include <Ws2tcpip.h>
+#include <fstream>
+#include <sstream>
+#include ".\..\Errors\SocketError.hpp"
+#include ".\httpHeaders.hpp"
+#include ".\Http.hpp"
+#include ".\..\Util\StringUtil.hpp"
+
+Socket::Socket(std::string ipAddress, int port)
 {
 	this->ipAddress = ipAddress;
 	this->port = port;
+
+	WSADATA WSAData;
 	WSAStartup(MAKEWORD(2, 0), &WSAData);
 }
 
@@ -41,25 +52,58 @@ void Socket::Close()
 	closesocket(this->socketFD);
 }
 
-bool Socket::SendFile(wstring filePath)
+bool Socket::SendString(std::string target, std::wstring data)
 {
 	this->Initialize();
 	this->Connect();
 
-	ifstream file(filePath, ios::binary | ios::ate);
-	streamoff size = file.tellg();
+	std::stringstream out;
+	out << "POST " + target + " HTTP/1.1\r\n";
+	out << "Host: " + this->hostName + "\r\n";
+	out << "Content-Length: " << data.size() << "\r\n";
+	out << "\r\n";
+	out << StringUtil::ConvertToNarrow(data);
+	std::string requestContent = out.str();
+	send(this->socketFD, requestContent.c_str(), requestContent.size(), 0);
 
-	stringstream out;
-	out << "POST /SendResult HTTP/1.1\r\n";
+	char buffer[1024];
+	int n = 0;
+	if ((n = recv(this->socketFD, buffer, sizeof buffer - 1, 0)) < 0)
+	{
+		this->Close();
+		return false;
+	}
+	buffer[n] = '\0';
+	std::string response(buffer);
+
+	this->Close();
+
+	httpHeaders headers = Http::ParseHeaders(response);
+	if (headers.statusCode == 200)
+		return true;
+	else
+		return false;
+}
+
+bool Socket::SendFile(std::string target, std::wstring filePath)
+{
+	this->Initialize();
+	this->Connect();
+
+	std::ifstream file(filePath, std::ios::binary | std::ios::ate);
+	std::streamoff size = file.tellg();
+
+	std::stringstream out;
+	out << "POST " + target + " HTTP/1.1\r\n";
 	out << "Host: " + this->hostName + "\r\n";
 	out << "Content-Length: " << size << "\r\n";
 	out << "\r\n";
-	string requestHeaders = out.str();
+	std::string requestHeaders = out.str();
 	send(this->socketFD, requestHeaders.c_str(), requestHeaders.size(), 0);
 
 	char data[1024];
 	file.clear();
-	file.seekg(0, ios::beg);
+	file.seekg(0, std::ios::beg);
 	while (size > 0)
 	{
 		int currRead = size >= 1024 ? 1024 : (int)size;
@@ -78,7 +122,7 @@ bool Socket::SendFile(wstring filePath)
 		return false;
 	}
 	buffer[n] = '\0';
-	string response(buffer);
+	std::string response(buffer);
 
 	this->Close();
 
