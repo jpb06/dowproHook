@@ -37,34 +37,41 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var http = require("http");
-var fs = require("fs");
-var util = require("util");
+var ApiSendReplays = require("./Api/SendReplays");
+var ApiSendResult = require("./Api/SendResult");
 var server = http.createServer();
 server.on('request', function (request, response) {
     var headers = request.headers, method = request.method, url = request.url;
-    request.setEncoding = null;
     var data = [];
-    var body;
     request.on('error', function (err) {
         console.error(err);
     }).on('data', function (chunk) {
         data.push(chunk);
     }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
-        var binary, fs_writeFile;
+        var binary, result, identity;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    binary = Buffer.concat(data);
                     response.on('error', function (err) {
                         console.error(err);
                     });
-                    fs_writeFile = util.promisify(fs.writeFile);
-                    return [4 /*yield*/, fs_writeFile("test.zip", binary)];
+                    binary = Buffer.concat(data);
+                    if (!(url === '/SendResult')) return [3, 2];
+                    return [4, ApiSendResult.Handle(binary)];
                 case 1:
-                    _a.sent();
+                    result = _a.sent();
+                    return [3, 4];
+                case 2:
+                    if (!(url === '/SendReplays')) return [3, 4];
+                    identity = headers.identity;
+                    return [4, ApiSendReplays.Handle(binary)];
+                case 3:
+                    result = _a.sent();
+                    _a.label = 4;
+                case 4:
                     response.writeHead(200, { 'Content-Type': 'text/plain' });
                     response.end('Transfer complete\n');
-                    return [2 /*return*/];
+                    return [2];
             }
         });
     }); });
