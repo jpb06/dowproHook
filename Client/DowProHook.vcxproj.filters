@@ -55,6 +55,12 @@
     <Filter Include="Fichiers sources\Errors">
       <UniqueIdentifier>{cea87469-ced7-426d-b2eb-acf21e7f37aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Crypto">
+      <UniqueIdentifier>{3665b19a-b7ad-4daa-98a7-aaa7820bfc61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Crypto">
+      <UniqueIdentifier>{9dd7c185-de47-4c15-bb01-03654ba02329}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Registry\Registry.cpp">
@@ -123,23 +129,23 @@
     <ClCompile Include="Sources\Errors\HeadersError.cpp">
       <Filter>Fichiers sources\Errors</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Crypto\Base64.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Errors\ApplicationError.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\Errors</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Network\Api\CrevetteBotApiConfiguration.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Network\Api\CrevetteBotApi.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Util\ProcessUtil.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="Sources\Crypto\Base64.cpp">
+      <Filter>Fichiers sources\Crypto</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Util\IdentityUtil.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Network\Api\CrevetteBotApi.cpp">
+      <Filter>Fichiers sources\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Network\Api\CrevetteBotApiConfiguration.cpp">
+      <Filter>Fichiers sources\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Util\ProcessUtil.cpp">
+      <Filter>Fichiers sources\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,26 +218,26 @@
     <ClInclude Include="Sources\UserInterface\MainWindow.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Crypto\picosha2.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Crypto\Base64.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Errors\ApplicationError.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Network\Api\CrevetteBotApiConfiguration.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Errors</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Network\Api\CrevetteBotApi.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Network</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Util\ProcessUtil.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Sources\Network\Api\CrevetteBotApiConfiguration.hpp">
+      <Filter>Fichiers d%27en-tête\Network</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Util\IdentityUtil.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Util\ProcessUtil.hpp">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Crypto\Base64.hpp">
+      <Filter>Fichiers d%27en-tête\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Crypto\picosha2.hpp">
+      <Filter>Fichiers d%27en-tête\Crypto</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
