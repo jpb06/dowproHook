@@ -38,7 +38,7 @@ inline T const* LuaObject::Get(int index) const
 template<typename T>
 inline T const* LuaObject::Get(const std::wstring identifier) const
 {
-	static_assert(is_base_of<LuaElement, T>::value, "T should inherit from LuaElement");
+	static_assert(std::is_base_of<LuaElement, T>::value, "T should inherit from LuaElement");
 
 	std::vector<std::unique_ptr<LuaElement>>::const_iterator results = find_if(
 		this->properties.begin(),

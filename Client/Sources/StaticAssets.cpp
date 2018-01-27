@@ -3,4 +3,4 @@
 SoulstormFiles StaticAssets::SoulstormFiles;
 Lua StaticAssets::Lua;
 CrevetteBotApiConfiguration StaticAssets::ApiConfiguration;
-string StaticAssets::Identity;
+std::string StaticAssets::Identity;

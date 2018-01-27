@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "./DowPro/SoulstormFiles.hpp"
 #include "./Lua/Lua.hpp"
 #include "./Network/Api/CrevetteBotApiConfiguration.hpp"
@@ -10,5 +11,5 @@ public:
 	static SoulstormFiles SoulstormFiles;
 	static Lua Lua;
 	static CrevetteBotApiConfiguration ApiConfiguration;
-	static string Identity;
+	static std::string Identity;
 };
