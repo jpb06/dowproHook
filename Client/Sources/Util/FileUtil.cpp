@@ -49,19 +49,6 @@ namespace FileUtil
 		return -1;
 	}
 
-	bool WriteFile(std::wstring path, std::wstring content)
-	{
-		FILE *stream;
-
-		if ((stream = _fsopen(StringUtil::ConvertToNarrow(path).c_str(), "w", _SH_DENYWR)) != NULL)
-		{
-			fprintf(stream, "%s", StringUtil::ConvertToNarrow(content).c_str());
-			fclose(stream);
-		}
-
-		return true;
-	}
-
 	void Write(std::wstring file, long integer)
 	{
 		FILE *stream;
@@ -82,6 +69,26 @@ namespace FileUtil
 			fprintf(stream, "%s", data.c_str());
 			fclose(stream);
 		}
+	}
+
+	void Append(std::wstring file, std::string data)
+	{
+		FILE *stream;
+
+		if ((stream = _fsopen(StringUtil::ConvertToNarrow(file).c_str(), "a", _SH_DENYWR)) != NULL)
+		{
+			fprintf(stream, "%s\n", data.c_str());
+			fclose(stream);
+		}
+	}
+
+	void Append(std::wstring file, std::wstring data)
+	{
+		std::wofstream stream(file, std::ios_base::app);
+		stream << data << std::endl;
+		stream.close();
+
+		
 	}
 
 	long ReadInteger(std::wstring file)
@@ -107,9 +114,30 @@ namespace FileUtil
 			std::stringstream buffer;
 			buffer << stream.rdbuf();
 
+			stream.close();
 			return buffer.str();
 		}
 		return "";
+	}
+
+	std::vector<std::wstring> ReadLines(std::wstring file)
+	{
+		std::vector<std::wstring> vector;
+
+		std::wifstream stream(file);
+		if (stream)
+		{
+			std::wstring line;
+
+			while (std::getline(stream, line))
+			{
+				vector.push_back(line);
+			}
+
+			stream.close();
+		}
+
+		return vector;
 	}
 
 	int Copy(std::wstring sourceFilePath, std::wstring newFilePath)
@@ -150,7 +178,12 @@ namespace FileUtil
 
 	}
 
-	std::string FileUtil::CalculateSHA256(std::wstring filePath)
+	void Delete(std::wstring file)
+	{
+		remove(StringUtil::ConvertToNarrow(file).c_str());
+	}
+
+	std::string CalculateSHA256(std::wstring filePath)
 	{
 		std::ifstream fileStream(StringUtil::ConvertToNarrow(filePath), std::ios_base::in | std::ios_base::binary);
 		std::string hash = picosha2::hash256_hex_string(std::string(std::istreambuf_iterator<char>(fileStream), std::istreambuf_iterator<char>()));
