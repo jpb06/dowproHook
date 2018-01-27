@@ -8,6 +8,7 @@
 #include ".\httpHeaders.hpp"
 #include ".\Http.hpp"
 #include ".\..\Util\StringUtil.hpp"
+#include ".\..\StaticAssets.hpp"
 
 Socket::Socket(std::string ipAddress, int port)
 {
@@ -97,6 +98,7 @@ bool Socket::SendFile(std::string target, std::wstring filePath)
 	out << "POST " + target + " HTTP/1.1\r\n";
 	out << "Host: " + this->hostName + "\r\n";
 	out << "Content-Length: " << size << "\r\n";
+	out << "Identity: " << StaticAssets::Identity << "\r\n";
 	out << "\r\n";
 	std::string requestHeaders = out.str();
 	send(this->socketFD, requestHeaders.c_str(), requestHeaders.size(), 0);
