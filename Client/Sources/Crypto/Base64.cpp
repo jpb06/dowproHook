@@ -2,7 +2,7 @@
 
 namespace Crypto
 {
-	static const string base64Characters =
+	static const std::string base64Characters =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 		"abcdefghijklmnopqrstuvwxyz"
 		"0123456789+/";
@@ -11,8 +11,8 @@ namespace Crypto
 		return (isalnum(c) || (c == '+') || (c == '/'));
 	}
 
-	string Base64Encode(unsigned char const* bytes_to_encode, unsigned int in_len) {
-		string ret;
+	std::string Base64Encode(unsigned char const* bytes_to_encode, unsigned int in_len) {
+		std::string ret;
 		int i = 0;
 		int j = 0;
 		unsigned char char_array_3[3];
@@ -54,13 +54,13 @@ namespace Crypto
 
 	}
 
-	string Base64Decode(string const& encoded_string) {
+	std::string Base64Decode(std::string const& encoded_string) {
 		size_t in_len = encoded_string.size();
 		size_t i = 0;
 		size_t j = 0;
 		int in_ = 0;
 		unsigned char char_array_4[4], char_array_3[3];
-		string ret;
+		std::string ret;
 
 		while (in_len-- && (encoded_string[in_] != '=') && IsBase64(encoded_string[in_])) {
 			char_array_4[i++] = encoded_string[in_]; in_++;

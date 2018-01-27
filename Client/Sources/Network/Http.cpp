@@ -1,12 +1,17 @@
 #include "Http.hpp"
 
-httpHeaders Http::ParseHeaders(string raw)
+#include <sstream>
+#include ".\HttpHeaders.hpp"
+#include ".\..\Util\StringUtil.hpp"
+#include ".\..\Errors\HeadersError.hpp"
+
+httpHeaders Http::ParseHeaders(std::string raw)
 {
 	httpHeaders headers;
 
 	istringstream stream(raw);
 
-	string line;
+	std::string line;
 	int pos = 1;
 	while (getline(stream, line)) 
 	{
@@ -19,7 +24,7 @@ httpHeaders Http::ParseHeaders(string raw)
 	return headers;
 }
 
-void Http::MapProtocolStatus(string line, httpHeaders& headers)
+void Http::MapProtocolStatus(std::string line, httpHeaders& headers)
 {
 	size_t length = line.size();
 	if (!StringUtil::StartsWith(line, "HTTP/1.") || length <= 13)
@@ -42,17 +47,17 @@ void Http::MapProtocolStatus(string line, httpHeaders& headers)
 }
 
 
-void Http::MapAdditionalHeaders(string line, httpHeaders & headers)
+void Http::MapAdditionalHeaders(std::string line, httpHeaders & headers)
 {
 	if (line == "\r") return;
 
 	size_t colonPos = line.find(':');
 
-	if(colonPos == string::npos)
+	if(colonPos == std::string::npos)
 		throw HeadersError { "Invalid http headers; at \"" + line + "\"" };
 
-	string type = line.substr(0, colonPos);
-	string value = line.substr(colonPos + 1, line.size() - colonPos-2);
+	std::string type = line.substr(0, colonPos);
+	std::string value = line.substr(colonPos + 1, line.size() - colonPos-2);
 
 	if (type == "Content-Type") headers.contentType = value;
 	if (type == "Date") headers.date = value;

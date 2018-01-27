@@ -1,8 +1,11 @@
 #include "GameResult.hpp"
 
-GameResult::GameResult(wstring filePath)
+#include "./../StaticAssets.hpp"
+#include "GamePlayer.hpp"
+
+GameResult::GameResult(std::wstring filePath)
 {
-	wstring content = StaticAssets::SoulstormFiles.GetGameResult(filePath);
+	std::wstring content = StaticAssets::SoulstormFiles.GetGameResult(filePath);
 
 
 }

@@ -1,11 +1,7 @@
 #pragma once
 
+#include <sstream>
 #include <zip.h>
-#include <ioapi.h>
-#include <string>
-#include <vector>
-#include <iostream>
-#include <time.h>
 
 namespace ziputils
 {

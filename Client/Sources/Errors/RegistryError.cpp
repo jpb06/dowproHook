@@ -1,11 +1,13 @@
 #include "RegistryError.hpp"
 
-RegistryError::RegistryError(const string message, LONG errorCode)
+#include <windows.h>
+
+RegistryError::RegistryError(const string message, long errorCode)
 	: runtime_error{ message }
 	, errorCode{ errorCode }
 {}
 
-LONG RegistryError::ErrorCode() const noexcept
+long RegistryError::ErrorCode() const noexcept
 {
 	return errorCode;
 }

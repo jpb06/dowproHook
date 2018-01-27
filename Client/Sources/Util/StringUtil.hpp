@@ -1,24 +1,19 @@
 #pragma once
 
-#include <algorithm> 
-#include <cctype>
-#include <locale>
-#include <codecvt>
-
-using namespace std;
+#include <string>
 
 namespace StringUtil
 {
-	void TrimLeft(wstring &s); // trim from start (in place)
-	void TrimRight(wstring &s); // trim from end (in place)
-	void Trim(wstring &s); // trim from both ends (in place)
-	wstring TrimLeftCopy(wstring s); // trim from start (copying)
-	wstring TrimRightCopy(wstring s); // trim from end (copying)
-	wstring TrimCopy(wstring s); // trim from both ends (copying)
-	string ConvertToNarrow(wstring ws);
-	wstring ConvertToWide(string s);
-	void RemoveIllegalCharacters(wstring* ws);
-	bool IsNumber(const string& s);
-	bool IsNumber(const wstring& s);
-	bool StartsWith(const string& s, const string& prefix);
+	void TrimLeft(std::wstring &s); // trim from start (in place)
+	void TrimRight(std::wstring &s); // trim from end (in place)
+	void Trim(std::wstring &s); // trim from both ends (in place)
+	std::wstring TrimLeftCopy(std::wstring s); // trim from start (copying)
+	std::wstring TrimRightCopy(std::wstring s); // trim from end (copying)
+	std::wstring TrimCopy(std::wstring s); // trim from both ends (copying)
+	std::string ConvertToNarrow(std::wstring ws);
+	std::wstring ConvertToWide(std::string s);
+	void RemoveIllegalCharacters(std::wstring* ws);
+	bool IsNumber(const std::string& s);
+	bool IsNumber(const std::wstring& s);
+	bool StartsWith(const std::string& s, const std::string& prefix);
 }

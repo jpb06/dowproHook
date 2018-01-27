@@ -25,6 +25,7 @@
     <ClCompile Include="Sources\DowPro\ReplaysWatcher.cpp" />
     <ClCompile Include="Sources\DowPro\SavedReplay.cpp" />
     <ClCompile Include="Sources\DowPro\SoulstormFiles.cpp" />
+    <ClCompile Include="Sources\Errors\ApplicationError.cpp" />
     <ClCompile Include="Sources\Errors\HeadersError.cpp" />
     <ClCompile Include="Sources\Errors\SocketError.cpp" />
     <ClCompile Include="Sources\Lua\Lua.cpp" />
@@ -33,6 +34,8 @@
     <ClCompile Include="Sources\Lua\LuaObject.cpp" />
     <ClCompile Include="Sources\Lua\LuaProperty.cpp" />
     <ClCompile Include="Sources\main.cpp" />
+    <ClCompile Include="Sources\Network\Api\CrevetteBotApi.cpp" />
+    <ClCompile Include="Sources\Network\Api\CrevetteBotApiConfiguration.cpp" />
     <ClCompile Include="Sources\Network\Http.cpp" />
     <ClCompile Include="Sources\Network\Socket.cpp" />
     <ClCompile Include="Sources\Registry\Registry.cpp" />
@@ -40,12 +43,15 @@
     <ClCompile Include="Sources\StaticAssets.cpp" />
     <ClCompile Include="Sources\Util\DateUtil.cpp" />
     <ClCompile Include="Sources\Util\FileUtil.cpp" />
+    <ClCompile Include="Sources\Util\IdentityUtil.cpp" />
+    <ClCompile Include="Sources\Util\ProcessUtil.cpp" />
     <ClCompile Include="Sources\Util\StringUtil.cpp" />
     <ClCompile Include="Sources\Zipping\Zipper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Crypto\Base64.hpp" />
     <ClInclude Include="Sources\Crypto\picosha2.hpp" />
+    <ClInclude Include="Sources\Errors\ApplicationError.hpp" />
     <ClInclude Include="Sources\Errors\HeadersError.hpp" />
     <ClInclude Include="Sources\DowPro\GamePlayer.hpp" />
     <ClInclude Include="Sources\DowPro\GameResult.hpp" />
@@ -57,6 +63,8 @@
     <ClInclude Include="Sources\Errors\LuaError.hpp" />
     <ClInclude Include="Sources\Lua\LuaObject.hpp" />
     <ClInclude Include="Sources\Lua\LuaProperty.hpp" />
+    <ClInclude Include="Sources\Network\Api\CrevetteBotApi.hpp" />
+    <ClInclude Include="Sources\Network\Api\CrevetteBotApiConfiguration.hpp" />
     <ClInclude Include="Sources\Network\Http.hpp" />
     <ClInclude Include="Sources\Network\httpHeaders.hpp" />
     <ClInclude Include="Sources\Network\Socket.hpp" />
@@ -67,6 +75,8 @@
     <ClInclude Include="Sources\UserInterface\MainWindow.hpp" />
     <ClInclude Include="Sources\Util\DateUtil.hpp" />
     <ClInclude Include="Sources\Util\FileUtil.hpp" />
+    <ClInclude Include="Sources\Util\IdentityUtil.hpp" />
+    <ClInclude Include="Sources\Util\ProcessUtil.hpp" />
     <ClInclude Include="Sources\Util\StringUtil.hpp" />
     <ClInclude Include="Sources\Zipping\Zipper.hpp" />
   </ItemGroup>

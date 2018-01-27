@@ -1,18 +1,21 @@
 #pragma once
 
-#include <stdio.h>
 #include <string>
-#include "StringUtil.hpp"
-
-using namespace std;
+#include <vector>
 
 namespace FileUtil
 {
-	bool IsFileOpened(wstring file);
-	bool FileExists(wstring file);
-	long GetFileSize(wstring file);
-	bool WriteFile(wstring path, wstring content);
-	void WriteInteger(wstring file, long integer);
-	long ReadInteger(wstring file);
-	int Copy(wstring sourceFilePath, wstring newFilePath);
+	bool IsFileOpened(std::wstring file);
+	bool FileExists(std::wstring file);
+	long GetFileSize(std::wstring file);
+	void Write(std::wstring file, long integer);
+	void Write(std::wstring file, std::string data);
+	void Append(std::wstring file, std::string data);
+	void Append(std::wstring file, std::wstring data);
+	long ReadInteger(std::wstring file);
+	std::string ReadString(std::wstring file);
+	std::vector<std::wstring> ReadLines(std::wstring file);
+	int Copy(std::wstring sourceFilePath, std::wstring newFilePath);
+	void Delete(std::wstring file);
+	std::string CalculateSHA256(std::wstring filePath);
 }

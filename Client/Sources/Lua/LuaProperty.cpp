@@ -1,6 +1,9 @@
 #include "LuaProperty.hpp"
 
-LuaProperty::LuaProperty(LuaElementType type, wstring identifier, wstring value)
+#include ".\LuaElement.hpp"
+#include ".\..\Errors\LuaError.hpp"
+
+LuaProperty::LuaProperty(LuaElementType type, std::wstring identifier, std::wstring value)
 	: LuaElement(type, identifier, value)
 {}
 
@@ -21,9 +24,9 @@ int LuaProperty::AsInt() const
 	}
 }
 
-wstring LuaProperty::AsString() const
+std::wstring LuaProperty::AsString() const
 {
-	wstring val = this->GetRawValue();
+	std::wstring val = this->GetRawValue();
 	size_t length = val.size();
 
 	if(val[0] != '"' || val[length-1] != '"')
@@ -32,10 +35,10 @@ wstring LuaProperty::AsString() const
 	return val.substr(1, length - 2);
 }
 
-wstring LuaProperty::ToJson() const
+std::wstring LuaProperty::ToJson() const
 {
-	wstring jsonValue;
-	wstring rawValue = this->GetRawValue();
+	std::wstring jsonValue;
+	std::wstring rawValue = this->GetRawValue();
 
 	size_t length = rawValue.size();
 	if (rawValue[0] == '"' && rawValue[length - 1] == '"')

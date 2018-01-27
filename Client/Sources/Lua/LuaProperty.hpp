@@ -2,18 +2,15 @@
 
 #include <string>
 #include "LuaElement.hpp"
-#include "./../Errors/LuaError.hpp"
-
-using namespace std;
 
 class LuaProperty : public LuaElement
 {
 public:
-	LuaProperty(LuaElementType type, wstring identifier, wstring value);
+	LuaProperty(LuaElementType type, std::wstring identifier, std::wstring value);
 	~LuaProperty();
 
 	int AsInt () const;
-	wstring AsString () const;
+	std::wstring AsString () const;
 
-	wstring ToJson() const;
+	std::wstring ToJson() const;
 };

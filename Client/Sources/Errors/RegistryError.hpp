@@ -1,15 +1,15 @@
 #pragma once
 
 #include <stdexcept>
-#include <windows.h>
+#include <string>
 
 using namespace std;
 
 class RegistryError : public runtime_error
 {
 	public:
-		RegistryError(const string message, LONG errorCode);
-		LONG ErrorCode() const noexcept;
+		RegistryError(const string message, long errorCode);
+		long ErrorCode() const noexcept;
 	private:
-		LONG errorCode;
+		long errorCode;
 };

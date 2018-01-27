@@ -1,24 +1,23 @@
 #pragma once
 
 #include <string>
-#include "GameResult.hpp"
 
-using namespace std;
+class GameResult;
 
 class SavedReplay
 {
 public:
-	SavedReplay(wstring path, wstring recFileName, wstring gameResultFileName);
+	SavedReplay(std::wstring path, std::wstring recFileName, std::wstring gameResultFileName);
 	~SavedReplay();
 
-	wstring GetRecFilePath();
-	wstring GetGameResultFilePath();
+	std::wstring GetRecFilePath();
+	std::wstring GetGameResultFilePath();
 
 	bool Erase();
 
 private:
-	wstring path;
-	wstring recFileName;
-	wstring gameResultFileName;
+	std::wstring path;
+	std::wstring recFileName;
+	std::wstring gameResultFileName;
 	GameResult* gameResult;
 };

@@ -2,34 +2,28 @@
 
 #include <string>
 #include <atomic>
-#include <chrono>
 #include <thread>
-#include ".\..\Network\Socket.hpp"
-#include ".\..\StaticAssets.hpp"
-#include ".\..\Util\FileUtil.hpp"
-#include ".\..\Util\DateUtil.hpp"
-#include ".\..\Util\StringUtil.hpp"
-
-using namespace std;
 
 class ReplaysWatcher
 {
 public:
-	ReplaysWatcher(wstring playbackPath);
+	ReplaysWatcher(std::wstring soulstormPath);
 	~ReplaysWatcher();
 
 	void Start();
 	void Stop();
+	bool IsRunning();
 	
 private:
-	wstring playbackPath;
-	wstring jsonFilePath;
-	wstring lastSavedFileSizePath;
-	wstring replayFilePath;
-	wstring archivePath;
+	std::wstring playbackPath;
+	std::wstring jsonFilePath;
+	std::wstring lastSavedFileHashPath;
+	std::wstring replayFilePath;
+	std::wstring archivePath;
+	std::wstring savedFilesListPath;
 
-	atomic<bool> running;
-	thread taskThread;
+	std::atomic<bool> running;
+	std::thread taskThread;
 	
-	void Task(atomic<bool>& program_is_running);
+	void Task(std::atomic<bool>& keepRunning);
 };

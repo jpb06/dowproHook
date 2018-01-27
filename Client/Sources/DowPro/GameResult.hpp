@@ -2,20 +2,18 @@
 
 #include <string>
 #include <vector>
-#include "GamePlayer.hpp"
-#include "./../StaticAssets.hpp"
 
-using namespace std;
+class GamePlayer;
 
 class GameResult
 {
 public:
-	GameResult(wstring filePath);
+	GameResult(std::wstring filePath);
 	~GameResult();
 
 private:
-	wstring winCondition;
-	wstring teamsCount;
-	wstring playersCount;
-	vector<GamePlayer*> players;
+	std::wstring winCondition;
+	std::wstring teamsCount;
+	std::wstring playersCount;
+	std::vector<GamePlayer*> players;
 };

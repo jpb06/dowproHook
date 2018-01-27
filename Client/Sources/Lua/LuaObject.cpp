@@ -1,13 +1,16 @@
 #include "LuaObject.hpp"
 
-LuaObject::LuaObject(wstring identifier, wstring rawContent)
+#include ".\LuaProperty.hpp"
+#include ".\..\Errors\LuaError.hpp"
+
+LuaObject::LuaObject(std::wstring identifier, std::wstring rawContent)
 	: LuaElement(LuaElementType::Object, identifier, rawContent)
 {}
 
 LuaObject::~LuaObject()
 {}
 
-void LuaObject::AddObj(unique_ptr<LuaObject> pt)
+void LuaObject::AddObj(std::unique_ptr<LuaObject> pt)
 {
 	this->properties.push_back(move(pt));
 }
@@ -17,9 +20,9 @@ void LuaObject::AddProp(LuaProperty* pt)
 	this->properties.emplace_back(pt);
 }
 
-wstring LuaObject::ToJson() const
+std::wstring LuaObject::ToJson() const
 {
-	wstring content = L"{";
+	std::wstring content = L"{";
 
 	unsigned int size = this->properties.size();
 	for (unsigned int i = 0; i < this->properties.size(); i++)

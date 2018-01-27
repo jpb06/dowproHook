@@ -1,8 +1,14 @@
 #include "FileUtil.hpp"
 
+#include <stdio.h>
+#include <string>
+#include <fstream>
+#include ".\StringUtil.hpp"
+#include ".\..\Crypto\picosha2.hpp"
+
 namespace FileUtil
 {
-	bool IsFileOpened(wstring file)
+	bool IsFileOpened(std::wstring file)
 	{
 		FILE *stream;
 
@@ -15,7 +21,7 @@ namespace FileUtil
 		return true;
 	}
 
-	bool FileExists(wstring file)
+	bool FileExists(std::wstring file)
 	{
 		FILE *stream;
 
@@ -28,7 +34,7 @@ namespace FileUtil
 		return false;
 	}
 
-	long GetFileSize(wstring file)
+	long GetFileSize(std::wstring file)
 	{
 		FILE *stream;
 
@@ -43,20 +49,7 @@ namespace FileUtil
 		return -1;
 	}
 
-	bool WriteFile(wstring path, wstring content)
-	{
-		FILE *stream;
-
-		if ((stream = _fsopen(StringUtil::ConvertToNarrow(path).c_str(), "w", _SH_DENYWR)) != NULL)
-		{
-			fprintf(stream, "%s", StringUtil::ConvertToNarrow(content).c_str());
-			fclose(stream);
-		}
-
-		return true;
-	}
-
-	void WriteInteger(wstring file, long integer)
+	void Write(std::wstring file, long integer)
 	{
 		FILE *stream;
 
@@ -67,22 +60,87 @@ namespace FileUtil
 		}
 	}
 
-	long ReadInteger(wstring file)
+	void Write(std::wstring file, std::string data)
+	{
+		FILE *stream;
+
+		if ((stream = _fsopen(StringUtil::ConvertToNarrow(file).c_str(), "w", _SH_DENYWR)) != NULL)
+		{
+			fprintf(stream, "%s", data.c_str());
+			fclose(stream);
+		}
+	}
+
+	void Append(std::wstring file, std::string data)
+	{
+		FILE *stream;
+
+		if ((stream = _fsopen(StringUtil::ConvertToNarrow(file).c_str(), "a", _SH_DENYWR)) != NULL)
+		{
+			fprintf(stream, "%s\n", data.c_str());
+			fclose(stream);
+		}
+	}
+
+	void Append(std::wstring file, std::wstring data)
+	{
+		std::wofstream stream(file, std::ios_base::app);
+		stream << data << std::endl;
+		stream.close();
+
+		
+	}
+
+	long ReadInteger(std::wstring file)
 	{
 		FILE *stream;
 
 		if ((stream = _fsopen(StringUtil::ConvertToNarrow(file).c_str(), "r", _SH_DENYWR)) != NULL)
 		{
-			long* integer = 0;
-			fscanf_s(stream, "%ld", integer);
+			long integer = 0;
+			fscanf_s(stream, "%ld", &integer);
 			fclose(stream);
-			return *integer;
+			return integer;
 		}
 
 		return 0;
 	}
 
-	int Copy(wstring sourceFilePath, wstring newFilePath)
+	std::string ReadString(std::wstring file)
+	{
+		std::ifstream stream(file);
+		if (stream)
+		{
+			std::stringstream buffer;
+			buffer << stream.rdbuf();
+
+			stream.close();
+			return buffer.str();
+		}
+		return "";
+	}
+
+	std::vector<std::wstring> ReadLines(std::wstring file)
+	{
+		std::vector<std::wstring> vector;
+
+		std::wifstream stream(file);
+		if (stream)
+		{
+			std::wstring line;
+
+			while (std::getline(stream, line))
+			{
+				vector.push_back(line);
+			}
+
+			stream.close();
+		}
+
+		return vector;
+	}
+
+	int Copy(std::wstring sourceFilePath, std::wstring newFilePath)
 	{
 		FILE *fold, *fnew;
 		errno_t err = 0, err1 = 0;
@@ -118,5 +176,17 @@ namespace FileUtil
 
 		return 0;
 
+	}
+
+	void Delete(std::wstring file)
+	{
+		remove(StringUtil::ConvertToNarrow(file).c_str());
+	}
+
+	std::string CalculateSHA256(std::wstring filePath)
+	{
+		std::ifstream fileStream(StringUtil::ConvertToNarrow(filePath), std::ios_base::in | std::ios_base::binary);
+		std::string hash = picosha2::hash256_hex_string(std::string(std::istreambuf_iterator<char>(fileStream), std::istreambuf_iterator<char>()));
+		return hash;
 	}
 }

@@ -1,6 +1,8 @@
 #include "SavedReplay.hpp"
 
-SavedReplay::SavedReplay(wstring path, wstring recFileName, wstring gameResultFileName)
+#include ".\GameResult.hpp"
+
+SavedReplay::SavedReplay(std::wstring path, std::wstring recFileName, std::wstring gameResultFileName)
 {
 	this->path = path;
 	this->recFileName = recFileName;
@@ -14,12 +16,12 @@ SavedReplay::~SavedReplay()
 	delete(this->gameResult);
 }
 
-wstring SavedReplay::GetRecFilePath()
+std::wstring SavedReplay::GetRecFilePath()
 {
 	return this->path + this->recFileName;
 }
 
-wstring SavedReplay::GetGameResultFilePath()
+std::wstring SavedReplay::GetGameResultFilePath()
 {
 	return this->path + this->gameResultFileName;
 }

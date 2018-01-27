@@ -2,12 +2,6 @@
 
 #include <string>
 #include <vector>
-#include <fstream>
-#include "./../Registry/Registry.hpp"
-#include "./../Zipping/Zipper.hpp"
-#include "./../Util/StringUtil.hpp"
-
-using namespace std;
 
 class SoulstormFiles
 {
@@ -15,15 +9,15 @@ public:
 	SoulstormFiles();
 	~SoulstormFiles();
 	
-	wstring GetSelectedProfileDirectory();
-	wstring GetGameResult();
-	wstring GetGameResult(wstring path);
-	void ArchiveGame(wstring archivePath, vector<wstring> filesPath);
+	std::wstring GetSelectedProfileDirectory();
+	std::wstring GetGameResult();
+	std::wstring GetGameResult(std::wstring path);
+	void ArchiveFiles(std::wstring archivePath, std::vector<std::wstring> filesPath);
 
 	// getters
-	wstring GetSoulstormRootDirectory();
+	std::wstring GetSoulstormRootDirectory();
 private: 
-	wstring soulstormRootDirectory;
+	std::wstring soulstormRootDirectory;
 
-	wstring ReadTextFile(wstring path);
+	std::wstring ReadTextFile(std::wstring path);
 };

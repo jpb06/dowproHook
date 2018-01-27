@@ -1,15 +1,12 @@
 #pragma once
 
 #include <string>
-#include <windows.h>
 #include <vector>
-#include "./../Errors/RegistryError.hpp"
-
-using namespace std;
+#include <Windows.h>
 
 namespace Registry 
 {
-	DWORD RegGetDword(HKEY hKey, const wstring& subKey, const wstring& value);
-	wstring RegGetString(HKEY hKey, const wstring& subKey, const wstring& value);
-	vector<wstring> RegGetMultiString(HKEY hKey, const wstring& subKey, const wstring& value);
+	unsigned long RegGetDword(HKEY hKey, const std::wstring& subKey, const std::wstring& value);
+	std::wstring RegGetString(HKEY hKey, const std::wstring& subKey, const std::wstring& value);
+	std::vector<std::wstring> RegGetMultiString(HKEY hKey, const std::wstring& subKey, const std::wstring& value);
 }

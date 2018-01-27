@@ -1,9 +1,11 @@
 #include "Registry.hpp"
 
+#include "./../Errors/RegistryError.hpp"
+
 namespace Registry
 {
 
-	DWORD RegGetDword(HKEY hKey, const wstring& subKey, const wstring& value)
+	unsigned long RegGetDword(HKEY hKey, const std::wstring& subKey, const std::wstring& value)
 	{
 		DWORD data{};
 		DWORD dataSize = sizeof(data);
@@ -24,7 +26,7 @@ namespace Registry
 		return data;
 	}
 
-	wstring RegGetString(HKEY hKey, const wstring& subKey, const wstring& value)
+	wstring RegGetString(HKEY hKey, const std::wstring& subKey, const std::wstring& value)
 	{
 		DWORD dataSize{};
 		LONG retCode = RegGetValue(
@@ -40,7 +42,7 @@ namespace Registry
 		if (retCode != ERROR_SUCCESS)
 			throw RegistryError{ "Cannot read string from registry", retCode };
 
-		wstring data;
+		std::wstring data;
 		data.resize(dataSize / sizeof(wchar_t));
 
 		retCode = RegGetValue(
@@ -64,7 +66,7 @@ namespace Registry
 		return data;
 	}
 
-	vector<wstring> RegGetMultiString(HKEY hKey, const wstring& subKey, const wstring& value)
+	std::vector<std::wstring> RegGetMultiString(HKEY hKey, const std::wstring& subKey, const std::wstring& value)
 	{
 		DWORD dataSize{};
 		LONG retCode = RegGetValue(
@@ -80,7 +82,7 @@ namespace Registry
 		if (retCode != ERROR_SUCCESS)
 			throw RegistryError{ "Cannot read multi-string from registry", retCode };
 
-		vector<wchar_t> data;
+		std::vector<wchar_t> data;
 		data.resize(dataSize / sizeof(wchar_t));
 
 		retCode = RegGetValue(
@@ -99,7 +101,7 @@ namespace Registry
 		data.resize(dataSize / sizeof(wchar_t));
 
 		// Parse the double-NUL-terminated string into a vector<wstring>
-		vector<wstring> result;
+		std::vector<std::wstring> result;
 		const wchar_t* currStringPtr = &data[0];
 		while (*currStringPtr != L'\0')
 		{
