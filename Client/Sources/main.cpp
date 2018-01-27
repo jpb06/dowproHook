@@ -2,13 +2,11 @@
 #include <thread>
 #include <chrono>
 #include <fstream>
-#include <windows.h>
 #include ".\DowPro\ReplaysWatcher.hpp"
 #include ".\StaticAssets.hpp"
 #include ".\Util\FileUtil.hpp"
-#include ".\Errors\ApplicationError.hpp"
-#include ".\Util\StringUtil.hpp"
 #include ".\Crypto\picosha2.hpp"
+#include ".\Util\IdentityUtil.hpp"
 
 using namespace std;
 
@@ -19,16 +17,7 @@ wstring init()
 	string guid = FileUtil::ReadString(ssRoot + L"dph_idty.dat");
 	if (guid.size() == 0) 
 	{
-		GUID guidReference;
-		HRESULT hCreateGuid = CoCreateGuid(&guidReference);
-
-		if (hCreateGuid != 0)
-			throw ApplicationError("Couldn't generate a guid");
-
-		wchar_t szGUID[64] = { 0 };
-		StringFromGUID2(guidReference, szGUID, 64);
-
-		guid = StringUtil::ConvertToNarrow(wstring(szGUID));
+		guid = IdentityUtil::GenerateOne();
 
 		FileUtil::Write(ssRoot + L"dph_idty.dat", guid);
 	}
@@ -53,10 +42,11 @@ void launchSoulstorm()
 int main()
 {
 	wstring ssRootPath = init();
+
 	ReplaysWatcher replaysWatcher(ssRootPath);
 	replaysWatcher.Start();
 
-	while(replaysWatcher.isRunning())
+	while(replaysWatcher.IsRunning())
 		this_thread::sleep_for(chrono::milliseconds(20000));
 
 	return 0;
