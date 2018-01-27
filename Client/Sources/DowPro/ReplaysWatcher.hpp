@@ -12,7 +12,7 @@ public:
 
 	void Start();
 	void Stop();
-	bool isRunning();
+	bool IsRunning();
 	
 private:
 	std::wstring playbackPath;
@@ -20,9 +20,10 @@ private:
 	std::wstring lastSavedFileHashPath;
 	std::wstring replayFilePath;
 	std::wstring archivePath;
+	std::wstring savedFilesListPath;
 
 	std::atomic<bool> running;
 	std::thread taskThread;
 	
-	void Task(std::atomic<bool>& program_is_running);
+	void Task(std::atomic<bool>& keepRunning);
 };

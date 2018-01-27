@@ -10,6 +10,7 @@
 #include ".\..\Util\FileUtil.hpp"
 #include ".\..\Util\DateUtil.hpp"
 #include ".\..\Util\StringUtil.hpp"
+#include ".\..\Util\ProcessUtil.hpp"
 
 ReplaysWatcher::ReplaysWatcher(std::wstring soulstormPath)
 {
@@ -17,6 +18,7 @@ ReplaysWatcher::ReplaysWatcher(std::wstring soulstormPath)
 	this->lastSavedFileHashPath = soulstormPath + L"dph_lahsh.dat";
 	this->replayFilePath = soulstormPath + L"Playback\\temp.rec";
 	this->archivePath = soulstormPath + L"dph_garc.zip";
+	this->savedFilesListPath = soulstormPath + L"dph_sf.dat";
 
 	this->running = false;
 }
@@ -27,53 +29,73 @@ ReplaysWatcher::~ReplaysWatcher()
 	{
 		this->running = false;
 		this->taskThread.detach();
-		this->~ReplaysWatcher();
 	}
 }
 
-void ReplaysWatcher::Task(std::atomic<bool>& program_is_running)
+void ReplaysWatcher::Task(std::atomic<bool>& keepRunning)
 {
-	const auto wait_duration = chrono::milliseconds(20000);
+	const auto waitDuration = std::chrono::milliseconds(20000);
 
-	while (program_is_running)
+	while (keepRunning)
 	{
-		bool isOpened = FileUtil::IsFileOpened(this->replayFilePath);
-		if (!isOpened)
+		bool isSoulstormRunning = ProcessUtil::IsProcessRunning(L"Soulstorm.exe");
+		if(isSoulstormRunning)
 		{
-			std::string lastSavedFileHash = FileUtil::ReadString(this->lastSavedFileHashPath);
-			std::ifstream ifs(this->replayFilePath, ios_base::in | ios_base::binary);
-			std::string hash = picosha2::hash256_hex_string(string(istreambuf_iterator<char>(ifs), istreambuf_iterator<char>()));
-			ifs.close();
-
-			if (hash != lastSavedFileHash)
+			bool isOpened = FileUtil::IsFileOpened(this->replayFilePath);
+			if (!isOpened)
 			{
-				std::wstring rawGameResult = StaticAssets::SoulstormFiles.GetGameResult();
-				std::unique_ptr<LuaObject> parsedGameResult = StaticAssets::Lua.ParseObject(rawGameResult);
+				std::string lastSavedFileHash = FileUtil::ReadString(this->lastSavedFileHashPath);
+				std::ifstream ifs(this->replayFilePath, std::ios_base::in | std::ios_base::binary);
+				std::string hash = picosha2::hash256_hex_string(std::string(std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>()));
+				ifs.close();
 
-				std::wstring mapName = parsedGameResult->Get<LuaProperty>(L"Scenario")->AsString();
-				std::string formattedDate = DateUtil::GetCurrentFormattedTime();
+				if (hash != lastSavedFileHash)
+				{
+					std::wstring rawGameResult = StaticAssets::SoulstormFiles.GetGameResult();
+					std::unique_ptr<LuaObject> parsedGameResult = StaticAssets::Lua.ParseObject(rawGameResult);
 
-				std::wstring filename = mapName + L'_' + StringUtil::ConvertToWide(formattedDate) + L".rec";
-				StringUtil::RemoveIllegalCharacters(&filename);
+					std::wstring mapName = parsedGameResult->Get<LuaProperty>(L"Scenario")->AsString();
+					std::string formattedDate = DateUtil::GetCurrentFormattedTime();
 
-				FileUtil::Copy(this->replayFilePath, this->playbackPath + L"\\" + filename);
-				FileUtil::Write(this->lastSavedFileHashPath, hash);
+					std::wstring wideFormattedDate = StringUtil::ConvertToWide(formattedDate);
+					std::wstring filename = mapName + std::wstring(L"_") + std::wstring(wideFormattedDate.c_str()) + L".rec";
+					StringUtil::RemoveIllegalCharacters(&filename);
 
-				std::wstring gameResultJson = parsedGameResult->ToJson();
-				std::wstring guid = StringUtil::ConvertToWide(StaticAssets::Identity);
-				std::wstring requestJson = L"{\"Identity\":\"" + guid.substr(1, guid.size()-2) + L"\", \"GameResult\":" + gameResultJson + L"}";
-				
-				CrevetteBotApi::SendGameResult(requestJson);
+					FileUtil::Copy(this->replayFilePath, this->playbackPath + L"\\" + filename);
+					FileUtil::Write(this->lastSavedFileHashPath, hash);
+
+					std::wstring gameResultJson = parsedGameResult->ToJson();
+					std::wstring guid = StringUtil::ConvertToWide(StaticAssets::Identity);
+					std::wstring requestJson = L"{\"Identity\":\"" + guid.substr(1, guid.size() - 2) + L"\", \"GameResult\":" + gameResultJson + L"}";
+
+					FileUtil::Append(this->savedFilesListPath, this->playbackPath + L"\\" + filename);
+
+					bool result = CrevetteBotApi::SendGameResult(requestJson);
+					int a = 0;
+					// if failed, save result to send it later
+				}
 			}
 		}
-		this_thread::sleep_for(wait_duration);
+		else 
+		{
+			std::vector<std::wstring> filesPaths = FileUtil::ReadLines(this->savedFilesListPath);
+			if(filesPaths.size() > 0)
+			{
+				FileUtil::Delete(this->savedFilesListPath);
+
+				bool result = CrevetteBotApi::SendReplays(filesPaths);
+				// if failed, save result to send it later
+			}
+		}
+
+		std::this_thread::sleep_for(waitDuration);
 	}
 }
 
 void ReplaysWatcher::Start()
 {
 	this->running = true;
-	this->taskThread = thread(&ReplaysWatcher::Task, this, ref(running));
+	this->taskThread = std::thread(&ReplaysWatcher::Task, this, ref(running));
 }
 
 void ReplaysWatcher::Stop()
@@ -82,7 +104,7 @@ void ReplaysWatcher::Stop()
 	this->taskThread.join();
 }
 
-bool ReplaysWatcher::isRunning()
+bool ReplaysWatcher::IsRunning()
 {
 	return this->running;
 }
