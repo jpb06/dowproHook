@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <algorithm>
 #include ".\LuaElement.hpp"
 
 class LuaProperty;
@@ -40,7 +41,7 @@ inline T const* LuaObject::Get(const std::wstring identifier) const
 {
 	static_assert(std::is_base_of<LuaElement, T>::value, "T should inherit from LuaElement");
 
-	std::vector<std::unique_ptr<LuaElement>>::const_iterator results = find_if(
+	std::vector<std::unique_ptr<LuaElement>>::const_iterator results = std::find_if(
 		this->properties.begin(),
 		this->properties.end(),
 		[&](std::unique_ptr<LuaElement> const& p) { return p->GetIdentifier() == identifier; }

@@ -2,7 +2,7 @@
 
 #include ".\..\Socket.hpp"
 #include ".\..\..\Lua\LuaObject.hpp"
-#include ".\..\..\StaticAssets.hpp"
+#include ".\..\..\Static\StaticAssets.hpp"
 #include ".\..\..\Errors\ApplicationError.hpp"
 #include ".\..\..\Util\StringUtil.hpp"
 
