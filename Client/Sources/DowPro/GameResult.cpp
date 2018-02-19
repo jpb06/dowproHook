@@ -3,7 +3,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
-#include ".\..\StaticAssets.hpp"
+#include ".\..\Static\StaticAssets.hpp"
 #include ".\..\Lua\LuaProperty.hpp"
 #include "GamePlayer.hpp"
 
@@ -11,14 +11,14 @@ GameResult::GameResult(std::unique_ptr<LuaObject> parsedGameResult, std::wstring
 {
 	this->duration = parsedGameResult->Get<LuaProperty>(L"Duration")->AsInt();
 	this->teamsCount = parsedGameResult->Get<LuaProperty>(L"Teams")->AsInt();
-	this->playersCount = parsedGameResult->Get<LuaProperty>(L"Players")->AsInt();
+	this->playersCount = unsigned(parsedGameResult->Get<LuaProperty>(L"Players")->AsInt());
 	
 	this->winCondition = parsedGameResult->Get<LuaProperty>(L"WinBy")->AsString();
 	this->mapName = parsedGameResult->Get<LuaProperty>(L"Scenario")->AsString();
 	
 	this->fileName = fileName;
 
-	for(int i = 0; i < this->playersCount; i++)
+	for(unsigned int i = 0; i < this->playersCount; i++)
 	{
 		const LuaObject* playerData = parsedGameResult->Get<LuaObject>(L"player_"+ std::to_wstring(i));
 		std::unique_ptr<GamePlayer> player(new GamePlayer(playerData));
@@ -87,7 +87,34 @@ std::wstring GameResult::GetPlayersAndRacesAsLines()
 	return lines;
 }
 
-int GameResult::GetPlayersCount()
+unsigned int GameResult::GetPlayersCount()
 {
 	return this->playersCount;
+}
+
+std::wstring GameResult::GetRaces()
+{
+	std::wstring races;
+
+	for (unsigned int i = 0; i < this->players.size(); i++)
+	{
+		GamePlayer* player = this->players.at(i).get();
+		std::wstring race = player->GetRace();
+
+		size_t pos = races.find(race);
+		if(pos == std::string::npos)
+		{
+			races += race + L", ";
+		}
+	}
+
+	return races.substr(0, races.size() - 2);
+}
+
+GamePlayer * GameResult::GetPlayer(unsigned int index)
+{
+	if (index >= this->playersCount) return NULL;
+
+	GamePlayer* player = this->players.at(index).get();
+	return player;
 }

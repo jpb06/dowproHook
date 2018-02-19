@@ -19,7 +19,9 @@ public:
 	std::wstring GetWinCondition();
 	std::wstring GetWinners();
 	std::wstring GetPlayersAndRacesAsLines();
-	int GetPlayersCount();
+	unsigned int GetPlayersCount();
+	std::wstring GetRaces();
+	GamePlayer* GetPlayer(unsigned int index);
 
 private:
 	std::wstring fileName;
@@ -27,6 +29,6 @@ private:
 	std::wstring winCondition;
 	int teamsCount;
 	int duration;
-	int playersCount;
+	unsigned int playersCount;
 	std::vector<std::unique_ptr<GamePlayer>> players;
 };
