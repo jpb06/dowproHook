@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -28,6 +28,9 @@
     <ClCompile Include="Sources\Errors\ApplicationError.cpp" />
     <ClCompile Include="Sources\Errors\HeadersError.cpp" />
     <ClCompile Include="Sources\Errors\SocketError.cpp" />
+    <ClCompile Include="Sources\Interface\ResourcesHandling.cpp" />
+    <ClCompile Include="Sources\Interface\ListView.cpp" />
+    <ClCompile Include="Sources\Static\StaticInterface.cpp" />
     <ClCompile Include="Sources\Lua\Lua.cpp" />
     <ClCompile Include="Sources\Lua\LuaElement.cpp" />
     <ClCompile Include="Sources\Errors\LuaError.cpp" />
@@ -40,7 +43,8 @@
     <ClCompile Include="Sources\Network\Socket.cpp" />
     <ClCompile Include="Sources\Registry\Registry.cpp" />
     <ClCompile Include="Sources\Errors\RegistryError.cpp" />
-    <ClCompile Include="Sources\StaticAssets.cpp" />
+    <ClCompile Include="Sources\Static\StaticAssets.cpp" />
+    <ClCompile Include="Sources\Static\StaticUserData.cpp" />
     <ClCompile Include="Sources\Util\DateUtil.cpp" />
     <ClCompile Include="Sources\Util\FileUtil.cpp" />
     <ClCompile Include="Sources\Util\IdentityUtil.cpp" />
@@ -49,6 +53,7 @@
     <ClCompile Include="Sources\Zipping\Zipper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Sources\Crypto\Base64.hpp" />
     <ClInclude Include="Sources\Crypto\picosha2.hpp" />
     <ClInclude Include="Sources\Errors\ApplicationError.hpp" />
@@ -58,6 +63,9 @@
     <ClInclude Include="Sources\DowPro\ReplaysWatcher.hpp" />
     <ClInclude Include="Sources\DowPro\SavedReplay.hpp" />
     <ClInclude Include="Sources\DowPro\SoulstormFiles.hpp" />
+    <ClInclude Include="Sources\Interface\ResourcesHandling.hpp" />
+    <ClInclude Include="Sources\Interface\ListView.hpp" />
+    <ClInclude Include="Sources\Static\StaticInterface.hpp" />
     <ClInclude Include="Sources\Lua\Lua.hpp" />
     <ClInclude Include="Sources\Lua\LuaElement.hpp" />
     <ClInclude Include="Sources\Errors\LuaError.hpp" />
@@ -71,14 +79,17 @@
     <ClInclude Include="Sources\Errors\SocketError.hpp" />
     <ClInclude Include="Sources\Registry\Registry.hpp" />
     <ClInclude Include="Sources\Errors\RegistryError.hpp" />
-    <ClInclude Include="Sources\StaticAssets.hpp" />
-    <ClInclude Include="Sources\UserInterface\MainWindow.hpp" />
+    <ClInclude Include="Sources\Static\StaticAssets.hpp" />
+    <ClInclude Include="Sources\Static\StaticUserData.hpp" />
     <ClInclude Include="Sources\Util\DateUtil.hpp" />
     <ClInclude Include="Sources\Util\FileUtil.hpp" />
     <ClInclude Include="Sources\Util\IdentityUtil.hpp" />
     <ClInclude Include="Sources\Util\ProcessUtil.hpp" />
     <ClInclude Include="Sources\Util\StringUtil.hpp" />
     <ClInclude Include="Sources\Zipping\Zipper.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DowProHook.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -145,7 +156,7 @@
     <Link />
     <Link>
       <AdditionalLibraryDirectories>.\StaticDependencies\zlib-1.2.11</AdditionalLibraryDirectories>
-      <AdditionalDependencies>zlibStaticDebug.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlibStaticDebug.lib;ws2_32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>
       </AdditionalOptions>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>

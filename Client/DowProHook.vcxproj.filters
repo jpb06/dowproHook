@@ -120,9 +120,6 @@
     <ClCompile Include="Sources\Errors\RegistryError.cpp">
       <Filter>Fichiers sources\Errors</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\StaticAssets.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Errors\SocketError.cpp">
       <Filter>Fichiers sources\Errors</Filter>
     </ClCompile>
@@ -147,11 +144,23 @@
     <ClCompile Include="Sources\Util\ProcessUtil.cpp">
       <Filter>Fichiers sources\Util</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Static\StaticUserData.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Static\StaticAssets.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Static\StaticInterface.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Interface\ListView.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Interface\ResourcesHandling.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\StaticAssets.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Lua\Lua.hpp">
       <Filter>Fichiers d%27en-tête\Lua</Filter>
     </ClInclude>
@@ -215,9 +224,6 @@
     <ClInclude Include="Sources\Errors\SocketError.hpp">
       <Filter>Fichiers d%27en-tête\Errors</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\UserInterface\MainWindow.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Errors\ApplicationError.hpp">
       <Filter>Fichiers d%27en-tête\Errors</Filter>
     </ClInclude>
@@ -239,5 +245,28 @@
     <ClInclude Include="Sources\Crypto\picosha2.hpp">
       <Filter>Fichiers d%27en-tête\Crypto</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Static\StaticUserData.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Static\StaticAssets.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Static\StaticInterface.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Interface\ListView.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Interface\ResourcesHandling.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DowProHook.rc">
+      <Filter>Fichiers de ressources</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
