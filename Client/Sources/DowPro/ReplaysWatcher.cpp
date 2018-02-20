@@ -6,7 +6,8 @@
 #include ".\..\Lua\LuaObject.hpp"
 #include ".\..\Crypto\picosha2.hpp"
 #include ".\..\Network\Api\CrevetteBotApi.hpp"
-#include ".\..\StaticAssets.hpp"
+#include ".\..\Static\StaticAssets.hpp"
+#include ".\..\Static\StaticUserData.hpp"
 #include ".\..\Util\FileUtil.hpp"
 #include ".\..\Util\DateUtil.hpp"
 #include ".\..\Util\StringUtil.hpp"
@@ -65,7 +66,7 @@ void ReplaysWatcher::Task(std::atomic<bool>& keepRunning)
 					FileUtil::Write(this->lastSavedFileHashPath, hash);
 
 					std::wstring gameResultJson = parsedGameResult->ToJson();
-					std::wstring guid = StringUtil::ConvertToWide(StaticAssets::Identity);
+					std::wstring guid = StringUtil::ConvertToWide(StaticUserData::Identity);
 					std::wstring requestJson = L"{\"Identity\":\"" + guid.substr(1, guid.size() - 2) + L"\", \"GameResult\":" + gameResultJson + L"}";
 
 					FileUtil::Append(this->savedFilesListPath, this->playbackPath + L"\\" + filename);

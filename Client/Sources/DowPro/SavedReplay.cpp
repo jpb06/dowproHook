@@ -8,7 +8,7 @@ SavedReplay::SavedReplay(std::wstring path, std::wstring recFileName, std::wstri
 	this->recFileName = recFileName;
 	this->gameResultFileName = gameResultFileName;
 
-	this->gameResult = new GameResult(path + gameResultFileName);
+	//this->gameResult = new GameResult(path + gameResultFileName, recFileName);
 }
 
 SavedReplay::~SavedReplay()
