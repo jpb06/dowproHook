@@ -302,6 +302,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	gameResults.push_back(move(gameResult5));
 
+	std::wstring rawGameResult6 = StaticAssets::SoulstormFiles.GetGameResult(L"E:\\XenoCid\\Anno_2k18\\dowproHook\\testStats5.Lua");
+	std::unique_ptr<LuaObject> parsedGameResult6 = StaticAssets::Lua.ParseObject(rawGameResult6);
+	std::unique_ptr<GameResult> gameResult6(new GameResult(move(parsedGameResult6), L"test6.rec"));
+
+	gameResults.push_back(move(gameResult6));
+
+	std::unique_ptr<LuaObject> parsedGameResult7 = StaticAssets::Lua.ParseObject(rawGameResult1);
+	std::unique_ptr<GameResult> gameResult7(new GameResult(move(parsedGameResult7), L"test7.rec"));
+	gameResults.push_back(move(gameResult7));
+	std::unique_ptr<LuaObject> parsedGameResult8 = StaticAssets::Lua.ParseObject(rawGameResult2);
+	std::unique_ptr<GameResult> gameResult8(new GameResult(move(parsedGameResult8), L"test8.rec"));
+	gameResults.push_back(move(gameResult8));
+	std::unique_ptr<LuaObject> parsedGameResult9 = StaticAssets::Lua.ParseObject(rawGameResult3);
+	std::unique_ptr<GameResult> gameResult9(new GameResult(move(parsedGameResult9), L"test9.rec"));
+	gameResults.push_back(move(gameResult9));
+	std::unique_ptr<LuaObject> parsedGameResult10 = StaticAssets::Lua.ParseObject(rawGameResult4);
+	std::unique_ptr<GameResult> gameResult10(new GameResult(move(parsedGameResult10), L"test10.rec"));
+	gameResults.push_back(move(gameResult10));
+	std::unique_ptr<LuaObject> parsedGameResult11 = StaticAssets::Lua.ParseObject(rawGameResult5);
+	std::unique_ptr<GameResult> gameResult11(new GameResult(move(parsedGameResult11), L"test11.rec"));
+	gameResults.push_back(move(gameResult11));
+
 	WNDCLASSEX wc;
 	HWND hwnd;
 	MSG Msg;
