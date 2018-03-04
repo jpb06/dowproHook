@@ -12,7 +12,11 @@ SoulstormFiles::SoulstormFiles()
 		L"SOFTWARE\\Wow6432Node\\THQ\\Dawn of War - Soulstorm", 
 		L"installlocation"
 	);
-	this->soulstormRootDirectory = soulstormRootDirectory + L"\\";
+
+	if (soulstormRootDirectory.back() != L'\\') 
+	{
+		this->soulstormRootDirectory = soulstormRootDirectory + L"\\";
+	}
 }
 
 SoulstormFiles::~SoulstormFiles()

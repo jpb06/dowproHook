@@ -86,7 +86,8 @@ HWND ListView::CreateListView(HWND hwndParent)
 }
 
 void ListView::CheckAllItems(BOOL fChecked) {
-	for (int nItem = 0; nItem < ListView_GetItemCount(this->listView); nItem++) {
+	for (int nItem = 0; nItem < ListView_GetItemCount(this->listView); nItem++) 
+	{
 		ListView_SetCheckState(this->listView, nItem, fChecked);
 	}
 }
@@ -115,6 +116,51 @@ void ListView::SetHeaderCheckbox() {
 		hdi.fmt &= ~HDF_CHECKED;
 	}
 	Header_SetItem(header, 0, &hdi);
+}
+
+std::vector<int> ListView::GetSelectedItemsIndexes()
+{
+	std::vector<int> indexes;
+
+	for (int nItem = 0; nItem < ListView_GetItemCount(this->listView); nItem++) 
+	{
+		if (ListView_GetCheckState(this->listView, nItem)) 
+		{
+			indexes.push_back(nItem);
+		}
+	}
+
+	return indexes;
+}
+
+void ListView::ClearItems()
+{
+	ListView_DeleteAllItems(this->listView);
+}
+
+void ListView::RemoveSelectedItems()
+{
+	int count = ListView_GetItemCount(this->listView);
+	for (int nItem = 0; nItem < count; nItem++)
+	{
+		bool checked = ListView_GetCheckState(this->listView, nItem);
+		if (checked)
+		{
+			ListView_DeleteItem(this->listView, nItem);
+		}
+	}
+
+	ListView::CheckAllItems(false);
+}
+
+void ListView::RemoveItem(int index)
+{
+	ListView_DeleteItem(this->listView, index);
+}
+
+void ListView::Refresh()
+{
+	UpdateWindow(this->listView);
 }
 
 void ListView::AddItem(GameResult* gameResult)

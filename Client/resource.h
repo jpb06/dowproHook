@@ -10,6 +10,8 @@
 #define ID_MENU_DISCARD_ALL				50004
 #define ID_MENU_DISCARD_SEL				50005
 
+#define WM_LISTVIEW_ADDITEM			40001
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
