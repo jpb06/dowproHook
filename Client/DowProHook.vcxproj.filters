@@ -78,9 +78,6 @@
     <ClCompile Include="Sources\DowPro\GameResult.cpp">
       <Filter>Fichiers sources\DowPro</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\DowPro\ReplaysWatcher.cpp">
-      <Filter>Fichiers sources\DowPro</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\DowPro\SavedReplay.cpp">
       <Filter>Fichiers sources\DowPro</Filter>
     </ClCompile>
@@ -159,6 +156,12 @@
     <ClCompile Include="Sources\Interface\ResourcesHandling.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Static\StaticApplicationLogicData.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Tasking\ReplaysWatcher.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Lua\Lua.hpp">
@@ -174,9 +177,6 @@
       <Filter>Fichiers d%27en-tête\DowPro</Filter>
     </ClInclude>
     <ClInclude Include="Sources\DowPro\GameResult.hpp">
-      <Filter>Fichiers d%27en-tête\DowPro</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\DowPro\ReplaysWatcher.hpp">
       <Filter>Fichiers d%27en-tête\DowPro</Filter>
     </ClInclude>
     <ClInclude Include="Sources\DowPro\SavedReplay.hpp">
@@ -261,6 +261,15 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Interface\ResourcesHandling.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Static\StaticApplicationLogicData.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Tasking\ReplayWatchTaskConfiguration.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Tasking\ReplaysWatcher.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
