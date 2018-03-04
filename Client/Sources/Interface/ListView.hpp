@@ -17,4 +17,11 @@ public:
 
 	void CheckAllItems(BOOL fChecked);
 	void SetHeaderCheckbox();
+    std::vector<int> GetSelectedItemsIndexes();
+
+	void ClearItems();
+	void RemoveSelectedItems();
+	void RemoveItem(int index);
+
+	void Refresh();
 };
