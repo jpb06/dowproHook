@@ -3,13 +3,18 @@ name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
 processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 #include <iostream>
-//#include <thread>
+#include <thread>
 //#include <chrono>
 #include <fstream>
-//#include ".\DowPro\ReplaysWatcher.hpp"
+
+#include ".\Tasking\ReplaysWatcher.hpp"
+#include ".\Tasking\ReplayWatchTaskConfiguration.hpp"
+#include <process.h>  
+
 #include ".\Static\StaticAssets.hpp"
 #include ".\Static\StaticUserData.hpp"
 #include ".\Static\StaticInterface.hpp"
+#include ".\Static\StaticApplicationLogicData.hpp"
 #include ".\Util\FileUtil.hpp"
 #include ".\Crypto\picosha2.hpp"
 #include ".\Util\IdentityUtil.hpp"
@@ -35,14 +40,19 @@ using namespace std;
 
 wstring init()
 {
-	wstring ssRoot = StaticAssets::SoulstormFiles.GetSoulstormRootDirectory();
+	std::wstring ssRoot = StaticAssets::SoulstormFiles.GetSoulstormRootDirectory();
 
-	string guid = FileUtil::ReadString(ssRoot + L"dph_idty.dat");
+	std::wstring hookFolder = ssRoot + L"hook\\";
+	std::wstring resultsFolder = hookFolder + L"\\results\\";
+	CreateDirectory(hookFolder.c_str(), NULL); 
+	CreateDirectory(resultsFolder.c_str(), NULL);
+
+	string guid = FileUtil::ReadString(hookFolder + L"dph_idty.dat");
 	if (guid.size() == 0)
 	{
 		guid = IdentityUtil::GenerateOne();
 
-		FileUtil::Write(ssRoot + L"dph_idty.dat", guid);
+		FileUtil::Write(hookFolder + L"dph_idty.dat", guid);
 	}
 
 	StaticUserData::Identity = guid;
@@ -51,32 +61,23 @@ wstring init()
 	ifstream ifs(ssRoot + L"\\Playback\\temp.rec", ios_base::in | ios_base::binary);
 	string hash = picosha2::hash256_hex_string(string(istreambuf_iterator<char>(ifs), istreambuf_iterator<char>()));
 	ifs.close();
-	FileUtil::Write(ssRoot + L"\\dph_lahsh.dat", hash);
+	FileUtil::Write(hookFolder + L"\\dph_lahsh.dat", hash);
 
 	return ssRoot;
 }
-//
-//void launchSoulstorm()
-//{
-//	// lauching soulstorm
-//	system("start steam://rungameid/9450");
-//}
 
-//int main()
-//{
-//	wstring ssRootPath = init();
-//
-//	ReplaysWatcher replaysWatcher(ssRootPath);
-//	replaysWatcher.Start();
-//
-//	while(replaysWatcher.IsRunning())
-//		this_thread::sleep_for(chrono::milliseconds(20000));
-//
-//	return 0;
-//}
+void launchSoulstorm()
+{
+	// lauching soulstorm
+	system("start steam://rungameid/9450");
+}
 
-std::vector<std::shared_ptr<GameResult>> gameResults;
+
 int selectedGameResult = -1;
+
+unsigned int threadID;
+void*  hThread;
+ReplayWatchTaskConfiguration config;
 
 // Window Procedure
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -87,11 +88,34 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		HWND listView = StaticInterface::ListviewControl.CreateListView(hwnd);
 
-		for (unsigned int i = 0; i < gameResults.size(); i++)
+		for (unsigned int i = 0; i < StaticUserData::GameResults.size(); i++)
 		{
-			GameResult* result = gameResults.at(i).get();
+			GameResult* result = StaticUserData::GameResults.at(i).get();
 			StaticInterface::ListviewControl.AddItem(result);
 		}
+
+		config.hwnd = hwnd;
+
+		config.keepRunning = true;
+		config.playbackPath = new std::wstring(StaticApplicationLogicData::SoulstormPath + L"Playback\\");
+		config.replayFilePath = new std::wstring(StaticApplicationLogicData::SoulstormPath + L"Playback\\temp.rec");
+		config.resultsPath = new std::wstring(StaticApplicationLogicData::SoulstormPath + L"hook\\results\\");
+
+		config.lastSavedFileHashPath = new std::wstring(StaticApplicationLogicData::SoulstormPath + L"hook\\dph_lahsh.dat");
+		config.archivePath = new std::wstring(StaticApplicationLogicData::SoulstormPath + L"hook\\dph_garc.zip");
+		config.savedFilesListPath = new std::wstring(StaticApplicationLogicData::SoulstormPath + L"hook\\dph_sf.dat");
+		
+		hThread = (HANDLE)_beginthreadex(NULL, 0, &ReplaysWatcher::Task, (void*)&config, 0, &threadID);
+
+		return 0;
+	}
+	case WM_LISTVIEW_ADDITEM:
+	{
+		int index = (int)wParam;
+		GameResult* result = StaticUserData::GameResults.at(index).get();
+
+		StaticInterface::ListviewControl.AddItem(result);
+		StaticInterface::ListviewControl.Refresh();
 
 		return 0;
 	}
@@ -115,7 +139,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if(!bSelectedBefore && bSelectedNow)
 				{
 				    int lvSelectedIndex = pnmlv->iItem;
-					int gameResultsIndex = gameResults.size() - lvSelectedIndex - 1;
+					int gameResultsIndex = StaticUserData::GameResults.size() - lvSelectedIndex - 1;
 					selectedGameResult = gameResultsIndex;
 
 					RECT rcClient;                       // The parent window's client area.
@@ -143,11 +167,48 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		switch (LOWORD(wParam))
 		{
+		case ID_MENU_SEND_ALL:
+
+			break;
+		case ID_MENU_SEND_SEL:
+
+			break;
+		case ID_MENU_DISCARD_ALL: 
+		{
+			StaticUserData::GameResults.clear();
+			StaticInterface::ListviewControl.ClearItems();
+			break; 
+		}
+		case ID_MENU_DISCARD_SEL: 
+		{
+			std::vector<std::shared_ptr<GameResult>> clearedGameResults;
+			std::vector<int> indexes = StaticInterface::ListviewControl.GetSelectedItemsIndexes();
+
+			for(unsigned int i = 0; i < StaticUserData::GameResults.size(); i++)
+			{
+				if (std::find(indexes.begin(), indexes.end(), i) == indexes.end())
+				{
+					clearedGameResults.push_back(std::move(StaticUserData::GameResults.at(i)));
+				}
+			}
+
+			StaticUserData::GameResults.clear();
+			
+			StaticUserData::GameResults = clearedGameResults;
+
+			StaticInterface::ListviewControl.ClearItems();
+			for (int j = StaticUserData::GameResults.size() - 1; j >= 0; j--)
+			{
+				GameResult* result = StaticUserData::GameResults.at(j).get();
+				StaticInterface::ListviewControl.AddItem(result);
+			}
+			break; 
+		}
 		case ID_MENU_HELP:
 			MessageBox(hwnd, L"Clic", L"Bonjour.", MB_ICONINFORMATION);
 			break;
 		case ID_MENU_QUIT:
-			SendMessage(hwnd, WM_DESTROY, 0, 0);
+			SendMessage(hwnd, WM_CLOSE, 0, 0);
 			break;
 		}
 
@@ -157,7 +218,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if(selectedGameResult != -1)
 		{
-			GameResult* gameResult = gameResults.at(selectedGameResult).get();
+			GameResult* gameResult = StaticUserData::GameResults.at(selectedGameResult).get();
 
 			PAINTSTRUCT ps;
 			BeginPaint(hwnd, &ps);
@@ -235,8 +296,21 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		DestroyWindow(hwnd);
 		break;
 	case WM_DESTROY:
+
 		DeleteObject(StaticInterface::MainFont);
 		DeleteObject(StaticInterface::BoldFont);
+
+		config.keepRunning = false;
+
+		WaitForSingleObject(hThread, INFINITE);
+
+		delete(config.archivePath);
+		delete(config.lastSavedFileHashPath);
+		delete(config.resultsPath);
+		delete(config.playbackPath);
+		delete(config.replayFilePath);
+		delete(config.savedFilesListPath);
+
 		PostQuitMessage(0);
 		break;
 	default:
@@ -270,59 +344,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		L"Tahoma"
 	);
 
-	wstring ssRootPath = init();
-
-	std::wstring rawGameResult1 = StaticAssets::SoulstormFiles.GetGameResult(L"E:\\XenoCid\\Anno_2k18\\dowproHook\\testStats1.Lua");
-	std::unique_ptr<LuaObject> parsedGameResult1 = StaticAssets::Lua.ParseObject(rawGameResult1);
-	std::unique_ptr<GameResult> gameResult1(new GameResult(move(parsedGameResult1), L"testdsfdvb1.rec"));
-
-	gameResults.push_back(move(gameResult1));
-
-	std::wstring rawGameResult2 = StaticAssets::SoulstormFiles.GetGameResult(L"E:\\XenoCid\\Anno_2k18\\dowproHook\\testStats2.Lua");
-	std::unique_ptr<LuaObject> parsedGameResult2 = StaticAssets::Lua.ParseObject(rawGameResult2);
-	std::unique_ptr<GameResult> gameResult2(new GameResult(move(parsedGameResult2), L"testfdsfdsfdsfdsfdsf2.rec"));
-
-	gameResults.push_back(move(gameResult2));
-
-	std::wstring rawGameResult3 = StaticAssets::SoulstormFiles.GetGameResult(L"E:\\XenoCid\\Anno_2k18\\dowproHook\\testStats3.Lua");
-	std::unique_ptr<LuaObject> parsedGameResult3 = StaticAssets::Lua.ParseObject(rawGameResult3);
-	std::unique_ptr<GameResult> gameResult3(new GameResult(move(parsedGameResult3), L"test3.rec"));
-
-	gameResults.push_back(move(gameResult3));
-
-	std::wstring rawGameResult4 = StaticAssets::SoulstormFiles.GetGameResult(L"E:\\XenoCid\\Anno_2k18\\dowproHook\\testStats4.Lua");
-	std::unique_ptr<LuaObject> parsedGameResult4 = StaticAssets::Lua.ParseObject(rawGameResult4);
-	std::unique_ptr<GameResult> gameResult4(new GameResult(move(parsedGameResult4), L"test4.rec"));
-
-	gameResults.push_back(move(gameResult4));
-
-	std::wstring rawGameResult5 = StaticAssets::SoulstormFiles.GetGameResult(L"E:\\XenoCid\\Anno_2k18\\dowproHook\\testStats4.Lua");
-	std::unique_ptr<LuaObject> parsedGameResult5 = StaticAssets::Lua.ParseObject(rawGameResult5);
-	std::unique_ptr<GameResult> gameResult5(new GameResult(move(parsedGameResult5), L"test5.rec"));
-
-	gameResults.push_back(move(gameResult5));
-
-	std::wstring rawGameResult6 = StaticAssets::SoulstormFiles.GetGameResult(L"E:\\XenoCid\\Anno_2k18\\dowproHook\\testStats5.Lua");
-	std::unique_ptr<LuaObject> parsedGameResult6 = StaticAssets::Lua.ParseObject(rawGameResult6);
-	std::unique_ptr<GameResult> gameResult6(new GameResult(move(parsedGameResult6), L"test6.rec"));
-
-	gameResults.push_back(move(gameResult6));
-
-	std::unique_ptr<LuaObject> parsedGameResult7 = StaticAssets::Lua.ParseObject(rawGameResult1);
-	std::unique_ptr<GameResult> gameResult7(new GameResult(move(parsedGameResult7), L"test7.rec"));
-	gameResults.push_back(move(gameResult7));
-	std::unique_ptr<LuaObject> parsedGameResult8 = StaticAssets::Lua.ParseObject(rawGameResult2);
-	std::unique_ptr<GameResult> gameResult8(new GameResult(move(parsedGameResult8), L"test8.rec"));
-	gameResults.push_back(move(gameResult8));
-	std::unique_ptr<LuaObject> parsedGameResult9 = StaticAssets::Lua.ParseObject(rawGameResult3);
-	std::unique_ptr<GameResult> gameResult9(new GameResult(move(parsedGameResult9), L"test9.rec"));
-	gameResults.push_back(move(gameResult9));
-	std::unique_ptr<LuaObject> parsedGameResult10 = StaticAssets::Lua.ParseObject(rawGameResult4);
-	std::unique_ptr<GameResult> gameResult10(new GameResult(move(parsedGameResult10), L"test10.rec"));
-	gameResults.push_back(move(gameResult10));
-	std::unique_ptr<LuaObject> parsedGameResult11 = StaticAssets::Lua.ParseObject(rawGameResult5);
-	std::unique_ptr<GameResult> gameResult11(new GameResult(move(parsedGameResult11), L"test11.rec"));
-	gameResults.push_back(move(gameResult11));
+	StaticApplicationLogicData::SoulstormPath = init();
 
 	WNDCLASSEX wc;
 	HWND hwnd;
